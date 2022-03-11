@@ -13,4 +13,5 @@ Des statistiques de Pokémon Showdown seront utilisé si elles peuvent être tro
 Le premier set me permettra de récupérer les information principales
 
 | ID | Nom  |Génération| Types 1 & 2 | Statistiques | Taille | Poids |
+| -- | --   | --       | --          | --           | --     | --    |
 
