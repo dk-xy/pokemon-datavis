@@ -10,8 +10,25 @@ Un deuxième dataset sera utilisé pour observer le classement des tiers en comb
 Des statistiques de Pokémon Showdown seront utilisé si elles peuvent être trouvée au format voulu. Elles sont autrement disponibles au format .txt
 
 ### Description
-Le premier set me permettra de récupérer les information principales
+Le premier set me permettra de récupérer les information principales suivante
 
-| ID | Nom  |Génération| Types 1 & 2 | Statistiques | Taille | Poids |
-| -- | --   | --       | --          | --           | --     | --    |
+| ID | Nom  |Génération| Types 1 & 2 | Statistiques | Taille | Poids | Sexe |
+| -- | --   | --       | --          | --           | --     | --    | --   |
 
+Le deuxième set est la liste des Pokémon triés par popularité d’utilisation. Ici les informations sont redondantes, mais l’ordre de la liste ainsi que le classement des tiers me sera utile.
+
+### But
+#### Exploration
+
+The Pokémon sort, en moyenne, une 100aine de Pokémons par génération. Mais combien sont utilisés vraiment ? favorisent-ils un type plutôt qu’un autre ?
+Dans le dessin animé, c’est toujours Pikachu qui est montré comme grand combattant, mais est-ce que la taille et le poids des Pokémons utilisé en combats compétitifs reflètent bien ce qui se passe dans les jeux ? 
+
+### Références
+#### Reddit - r/dataisbeautiful
+[Combinaision de type](https://plotapi.com/gallery/posts/showcase/pokemon-types-with-plotapi-chord/)
+[Heatmap des types](https://www.reddit.com/r/dataisbeautiful/comments/raxwax/oc_pok%C3%A9mon_type_combinations_heatmap/)
+
+#### Medium
+ Ces graphes sont accompagnés de textes pour raconter une histoire mais sont moins impréssionants...
+ [Visualisations basiques des stats](https://medium.com/analytics-vidhya/data-visualization-pok%C3%A9mon-dataset-48e57690830d)
+ [Heatmaps des stats faits en R](https://medium.com/@hanahshih46/pokemon-data-visualization-and-analysis-with-r-60970c8e37f4)
