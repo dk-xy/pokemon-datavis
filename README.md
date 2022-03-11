@@ -27,10 +27,10 @@ Dans le dessin animé, c’est toujours Pikachu qui est montré comme grand comb
 
 ### Références
 #### Reddit - r/dataisbeautiful
-[Combinaision de type](https://plotapi.com/gallery/posts/showcase/pokemon-types-with-plotapi-chord/)
-[Heatmap des types](https://www.reddit.com/r/dataisbeautiful/comments/raxwax/oc_pok%C3%A9mon_type_combinations_heatmap/)
+- [Combinaision de type](https://plotapi.com/gallery/posts/showcase/pokemon-types-with-plotapi-chord/)
+- [Heatmap des types](https://www.reddit.com/r/dataisbeautiful/comments/raxwax/oc_pok%C3%A9mon_type_combinations_heatmap/)
 
 #### Medium
  Ces graphes sont accompagnés de textes pour raconter une histoire mais sont moins impréssionants...
- [Visualisations basiques des stats](https://medium.com/analytics-vidhya/data-visualization-pok%C3%A9mon-dataset-48e57690830d)
- [Heatmaps des stats faits en R](https://medium.com/@hanahshih46/pokemon-data-visualization-and-analysis-with-r-60970c8e37f4)
+ - [Visualisations basiques des stats](https://medium.com/analytics-vidhya/data-visualization-pok%C3%A9mon-dataset-48e57690830d)
+ - [Heatmaps des stats faits en R](https://medium.com/@hanahshih46/pokemon-data-visualization-and-analysis-with-r-60970c8e37f4)
