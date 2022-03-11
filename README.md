@@ -17,10 +17,12 @@ Le premier set me permettra de récupérer les information principales suivante
 
 Le deuxième set est la liste des Pokémon triés par popularité d’utilisation. Ici les informations sont redondantes, mais l’ordre de la liste ainsi que le classement des tiers me sera utile.
 
+Si le temps le permet, il est possible que j'utilise [les données des matches de Pokémon Showdown](https://www.smogon.com/stats/),un simulateur de batail en ligne très populaire utilisé partout dans le monde.
+
 ### But
 #### Exploration
 
-The Pokémon sort, en moyenne, une 100aine de Pokémons par génération. Mais combien sont utilisés vraiment ? favorisent-ils un type plutôt qu’un autre ?
+The Pokémon Company sort, en moyenne, une 100aine de Pokémons par génération. Mais combien sont utilisés vraiment ? favorisent-ils un type plutôt qu’un autre ?
 Dans le dessin animé, c’est toujours Pikachu qui est montré comme grand combattant, mais est-ce que la taille et le poids des Pokémons utilisé en combats compétitifs reflètent bien ce qui se passe dans les jeux ? 
 
 ### Références
