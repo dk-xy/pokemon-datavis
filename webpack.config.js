@@ -25,7 +25,17 @@ module.exports = {
             {
                 test: /\.css$/i,
                 use: [MiniCssExtractPlugin.loader, 'css-loader'],
+              },
+              {
+                test: /\.csv$/,
+                loader: 'csv-loader',
+                options: {
+                  dynamicTyping: true,
+                  header: true,
+                  skipEmptyLines: true
+                }
               }
+              
         ]
     },
     plugins: [HtmlWebpackPluginConfig, new MiniCssExtractPlugin()]

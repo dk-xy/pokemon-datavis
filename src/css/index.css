@@ -34,6 +34,11 @@ header {
     transition: 0.5s;
     /* 0.5 second transition effect to slide in the sidenav */
     display: block;
+    overflow: hidden;
+}
+
+header nav {
+    min-width: 250px;
 }
 
 
