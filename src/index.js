@@ -4,6 +4,8 @@ import './navigation';
 import pokemon from "../data/pokemon.csv";
 import smogon from "../data/smogon.csv";
 
+
+//Préparation UI--------------------------------
 console.log("hello")
 
 function toggleSection(section) {
@@ -31,12 +33,29 @@ function displaySection() {
 window.addEventListener('hashchange', displaySection)
 
 
-//Partie
-// console.log(smogon)
 
-// console.log(pokemon)
+//PREPARATION DATA----------------------------------
 
-
+const typeArray =[
+  "bug",
+  "dark",
+  "dragon",
+  "electric",
+  "fairy",
+  "fire",
+  "fighting",
+  "flying",
+  "grass",
+  "ghost",
+  "ground",
+  "ice",
+  "normal",
+  "poison",
+  "psychic",
+  "rock",
+  "steel",
+  "water",
+]
 
 function sortTypes(theArray) {
   let lineMatrice = new Array(18);
@@ -92,20 +111,21 @@ function sortTypes(theArray) {
       case pkmn.type2 == "poison":
         lineMatrice[13]++
         break;
-      case pkmn.type2 == "water":
+      case pkmn.type2 == "psychic":
         lineMatrice[14]++
         break;
-      case pkmn.type2 == "psychic":
+      case pkmn.type2 == "rock":
         lineMatrice[15]++
         break;
       case pkmn.type2 == "steel":
         lineMatrice[16]++
         break;
-      case pkmn.type2 == "rock":
+      case pkmn.type2 == "water":
         lineMatrice[17]++
         break;
-      case pkmn.type2 == "":
-        lineMatrice[18]++
+      case pkmn.type2 == null:
+        let typeIndex = typeArray.indexOf(pkmn.type1)
+        lineMatrice[typeIndex]++
         break;
       default:
         break;
@@ -114,8 +134,6 @@ function sortTypes(theArray) {
   return lineMatrice;
 }
 
-// const tierUber = smogon.filter(pkmn => pkmn.Tier == "Uber");
-// console.log(tierUber)
 
 //1 - bug----------------------------------------
 const bugArray = pokemon.filter(pkmn => pkmn.type1 == "bug")
@@ -160,19 +178,23 @@ let normal_matrice_done = sortTypes(iceArray)
 const poisonArray = pokemon.filter(pkmn => pkmn.type1 == "poison")
 let poison_matrice_done = sortTypes(poisonArray)
 //15 - water
-const waterArray = pokemon.filter(pkmn => pkmn.type1 == "water")
+const waterArray = pokemon.filter(pkmn => pkmn.type1 == "psychic")
 let water_matrice_done = sortTypes(waterArray)
 //16 - psychic
-const psyArray = pokemon.filter(pkmn => pkmn.type1 == "psychic")
+const psyArray = pokemon.filter(pkmn => pkmn.type1 == "rock")
 let psychic_matrice_done = sortTypes(psyArray)
 //17 - steel
 const steelArray = pokemon.filter(pkmn => pkmn.type1 == "steel")
 let steel_matrice_done = sortTypes(steelArray)
 //18 - rock
-const rockArray = pokemon.filter(pkmn => pkmn.type1 == "steel")
+const rockArray = pokemon.filter(pkmn => pkmn.type1 == "water")
 let rock_matrice_done = sortTypes(rockArray)
 //19 - none
 
+
+console.log(waterArray)
+console.log(bugArray)
+console.log(water_matrice_done)
 const matrix = [
   [...bug_matrice_done],
   [...dark_matrice_done],
@@ -196,13 +218,6 @@ const matrix = [
 
 console.log(matrix)
 
-var svg = d3.select("#section-types")
-  .append("svg")
-  .attr("width", 440)
-  .attr("height", 440)
-  .append("g")
-  .attr("transform", "translate(220,220)")
-
 
 
 var colors = [
@@ -225,51 +240,126 @@ var colors = [
   "#b6b7c0", //steel
   "#3096ee" //water
 ]
-// give this matrix to d3.chord(): it will calculates all the info we need to draw arc and ribbon
+
+
+
+
+//CREATION DU GRAPHIQUE--------------------------------
+
+var margin = {left:90, top:90, right:90, bottom:90},
+    width =  1000 - margin.left - margin.right, // more flexibility: Math.min(window.innerWidth, 1000)
+    height =  1000 - margin.top - margin.bottom, // same: Math.min(window.innerWidth, 1000)
+    innerRadius = Math.min(width, height) * .39,
+    outerRadius = innerRadius * 1.1;/*www .de  m o2  s .c om*/
+
+
+
+//CADRE DE BASE
+var svg = d3.select("#section-types")
+  .append("svg")
+  .attr("width", 1000)
+  .attr("height", 1000)
+  .append("g")
+  .attr("transform", "translate(420,320)")
+
+//calcul de la matrice
 var res = d3.chord()
-  .padAngle(0.05)
-  .sortSubgroups(d3.descending)
+  .padAngle(0.03)
+  .sortSubgroups(d3.descending) /*sort the chords inside an arc from high to low*/
+  .sortChords(d3.descending) 
   (matrix)
 
-// add the groups on the outer part of the circle
+
+
+  
+// Groupes dans la partie exterieur du cercle
+let outerGroups =
 svg
   .datum(res)
   .append("g")
   .selectAll("g")
   .data(function (d) { return d.groups; })
   .enter()
-  .append("g")
-  .append("path")
-  .style("fill", function (d, i) { return colors[i] })
-  .style("stroke", "black")
-  .attr("d", d3.arc()
-    .innerRadius(200)
-    .outerRadius(210)
-  )
+  .append("g");
 
-// Add the links between groups
-svg
+let outerBars = outerGroups.attr('class', function(d) {return "group " + typeArray[d.index];})
+.append("path")
+.on("mouseover", onMouseOver)
+.on("mouseout", onMouseOut)
+.style("fill", function (d, i) { return colors[i] })
+.style("stroke", function (d, i) { return colors[i]})
+.attr("d", d3.arc()
+  .innerRadius(200)
+  .outerRadius(210)
+) //append  des elements g
+
+let outerText = outerBars.data(res.groups)
+.enter().append("svg:g")
+.attr("class", function(d) {return "group " + typeArray[d.index];})
+.append("svg:textPath")
+.text(function(d) {return typeArray[d.index];})
+
+
+
+let textGroups = d3.selectAll('g.group')
+  .append("text")
+  .each(function(d) { d.angle = (d.startAngle + d.endAngle) / 2; })
+  .attr("dy", ".05em")
+  .attr("class", "titles")
+  .attr("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
+  .attr("transform", function(d) {
+    return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
+    + "translate(" + (outerRadius-100) + ")"
+    + (d.angle > Math.PI ? "rotate(180)" : "");
+  })
+  .text(function(d,i) { return typeArray[i]; })
+
+
+	
+
+// Ajout des liens entre les groupes-------
+let innerBars = svg
   .datum(res)
   .append("g")
   .selectAll("path")
   .data(function (d) { return d; })
   .enter()
   .append("path")
+  .attr('class', 'innerArcs')
+  .on("mouseover", d => onMouseOver(d.source))
+  .on("mouseout", d => onMouseOut(d))
+
+  // .on("mouseout", onMouseOut)
   .attr("d", d3.ribbon()
     .radius(200)
   )
   .style("fill", function (d) { return (colors[d.source.index]) }) // colors depend on the source group. Change to target otherwise.
-  .style("stroke", "black");
+  .style("stroke", function (d) { return (colors[d.source.index]) })
 
 
 
-  var tooltip = d3.select("#my_dataviz")
-  .append("div")
-  .style("opacity", 0)
-  .attr("class", "tooltip")
-  .style("background-color", "white")
-  .style("border", "solid")
-  .style("border-width", "1px")
-  .style("border-radius", "5px")
-  .style("padding", "10px")
+
+
+
+//animation
+function onMouseOver(selected) {
+
+  //console.log(selected.target)
+  let arcs = svg.selectAll(".innerArcs")
+  let filteredArcs = arcs.filter( d => d == selected)
+  filteredArcs
+  .style("opacity", 1.0);
+
+  arcs
+  .style("opacity", 0.3);
+
+}
+
+
+
+function onMouseOut() {
+  outerBars.style("opacity", 1);
+  svg.selectAll("path")
+    .style("opacity", 1);
+}
 
