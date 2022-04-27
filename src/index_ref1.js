@@ -250,149 +250,115 @@ var margin = {left:90, top:90, right:90, bottom:90},
     width =  1000 - margin.left - margin.right, // more flexibility: Math.min(window.innerWidth, 1000)
     height =  1000 - margin.top - margin.bottom, // same: Math.min(window.innerWidth, 1000)
     innerRadius = Math.min(width, height) * .39,
-    outerRadius = innerRadius * 1.1;/*www .de  m o2  s .c om*/
+    outerRadius = innerRadius * 1.1;
 
+    const svg = d3.create("svg")
+    .attr("viewBox", [-width / 2, -height / 2, width, height])
+    .attr("font-size", 10)
+    .attr("font-family", "sans-serif")
+    .style("width", "100%")
+    .style("height", "auto");
 
+const chords = chord(data.matrix);
 
-//FONCTIONS D ANIMATION-------------------------------
-
-
-//CADRE DE BASE
-let svg = d3.select("#section-types")
-  .append("svg")
-  .attr("width", 1000)
-  .attr("height", 1000)
-  .append("g")
-  .attr("transform", "translate(420,320)")
-
-//calcul de la matrice
-let res = d3.chord()
-  .padAngle(0.03)
-  .sortSubgroups(d3.descending) 
-  .sortChords(d3.descending) 
-  (matrix)
-
-
-
-
-  
-// Groupes dans la partie exterieur du cercle
-let outerGroups =
-svg
-  .datum(res)
-  .append("g")
+const group = svg.append("g")
   .selectAll("g")
-  .data(function (d) { return d.groups; })
-  .enter()
-  .append("g");
+  .data(chords.groups)
+  .join("g");
 
-let outerBars = outerGroups.attr('class', "group")
-.attr('type', function(d) {return typeArray[d.index];})
-.append("path")
-.on("mouseover", onMouseOver)
-.on("mouseout", onMouseOut)
-.style("fill", function (d, i) { return colors[i] })
-.style("stroke", function (d, i) { return colors[i]})
-.attr("d", d3.arc()
-  .innerRadius(200)
-  .outerRadius(210)
-) //append  des elements g
+function onMouseOver(selected) {
+  group      
+    .filter( d => d.index !== selected.index)
+    .style("opacity", 0.3);
+  
+  svg.selectAll(".chord")
+    .filter( d => d.source.index !== selected.index)
+    .style("opacity", 0.3);
+}
 
-let outerText = outerBars.data(res.groups)
-.enter().append("svg:g")
-.attr("class", function(d) {return "group " + typeArray[d.index];})
-.append("svg:textPath")
-.text(function(d) {return typeArray[d.index];})
+function onMouseOut() {
+  group.style("opacity", 1);
+  svg.selectAll(".chord")
+    .style("opacity", 1);
+}
 
+group.append("path")
+    .attr("fill", d => color(d.index))
+    .attr("stroke", d => color(d.index))
+    .attr("d", arc)
+    .on("mouseover", onMouseOver)
+    .on("mouseout", onMouseOut);
 
+group.append("text")
+    .each(d => { d.angle = (d.startAngle + d.endAngle) / 2; })
+    .attr("dy", ".35em")
+    .attr("transform", d => `
+      rotate(${(d.angle * 180 / Math.PI - 90)})
+      translate(${innerRadius + 26})
+      ${d.angle > Math.PI ? "rotate(180)" : ""}
+    `)
+    .attr("text-anchor", d => d.angle > Math.PI ? "end" : null)
+    .text(d => data.nameByIndex.get(d.index));
 
-let textGroups = d3.selectAll('g.group')
-  .append("text")
-  .each(function(d) { d.angle = (d.startAngle + d.endAngle) / 2; })
-  .attr("dy", ".05em")
-  .attr("class", "titles")
-  .attr("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
-  .attr("transform", function(d) {
-    return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-    + "translate(" + (outerRadius-100) + ")"
-    + (d.angle > Math.PI ? "rotate(180)" : "");
-  })
-  .text(function(d,i) { return typeArray[i]; })
-
-
-	
-
-// Ajout des liens entre les groupes-------
-let innerBars = svg
-  .datum(res)
-  .append("g")
+svg.append("g")
+    .attr("fill-opacity", 0.67)
   .selectAll("path")
-  .data(function (d) { return d; })
-  .enter()
-  .append("path")
-  .attr('class', 'innerArcs')
-
-  .on("mouseover", d => onMouseOver(d))
-  .on("mouseout", d => onMouseOut(d))
-
-  // .on("mouseout", onMouseOut)
-  .attr("d", d3.ribbon()
-    .radius(200)
-  )
-  .attr("id", function (d) { return ([d.type1]) })
-
-  .style("fill", function (d) { return (colors[d.source.index]) }) // colors depend on the source group. Change to target otherwise.
-  .style("stroke", function (d) { return (colors[d.source.index]) })
+  .data(chords)
+  .join("path")
+    .attr("class", "chord")
+    .attr("stroke", d => d3.rgb(color(d.source.index)).darker())
+    .attr("fill", d => color(d.source.index))
+    .attr("d", ribbon)
+    .on("mouseover", d => onMouseOver(d.source))
+    .on("mouseout", d => onMouseOut(d.source));
 
 
 
+      const imports = d3.csv(pokemon);
+    
+      const indexByName = new Map;
+      const nameByIndex = new Map;
+      const matrix2 = [];
+      let n = 0;
+    
+      // Returns the Flare package name for the given class name.
+      function name(name) {
+        return name.substring(0, name.lastIndexOf(".")).substring(6);
+      }
+    
+      // Compute a unique index for each package name.
+      imports.forEach(d => {
+        if (!indexByName.has(d = name(d.name))) {
+          nameByIndex.set(n, d);
+          indexByName.set(d, n++);
+        }
+      });
+    
+      // Construct a square matrix counting package imports.
+      imports.forEach(d => {
+        const source = indexByName.get(name(d.name));
+        let row = matrix[source];
+        if (!row) row = matrix[source] = Array.from({length: n}).fill(0);
+        d.imports.forEach(d => row[indexByName.get(name(d))]++);
+      });
+    
 
+      chord = d3.chord()
+      .padAngle(.02)
+      .sortSubgroups(d3.descending)
+      .sortChords(d3.descending)
 
+      arc = d3.arc()
+    .innerRadius(innerRadius)
+    .outerRadius(innerRadius + 20)
 
+    ribbon = d3.ribbon()
+    .radius(innerRadius)
 
-  
-  function onMouseOver(selected) {
-    console.log(selected)
-    innerBars      
-      // .filter(function(d) { console.log(d); return d })
-      .filter( d => d !== selected)
-      .style("opacity", 0.3);
-    // selected
-    //   .style("opacity", 1)
-    // innerBars.selectAll(".group")
-    //   .filter( d => d !== selected.index)
-    //   .style("opacity", 0.3);
-  }
-  
-  function onMouseOut() {
-    innerBars.style("opacity", 1);
-    svg.selectAll(".chord")
-      .style("opacity", 1);
-  } 
+    outerRadius = Math.min(width, height) * 0.5
 
+    innerRadius = outerRadius - 124
 
+    width = 964
 
-// function onMouseOver(selected) {
-
-//   console.log(selected)
-//   let arcs = svg.selectAll(".innerArcs")
-//   let filteredArcs = arcs.filter( d => d == selected)
-//   filteredArcs
-//   .style("opacity", 1.0);
-
-//   arcs
-//   .style("opacity", 0.3);
-
-// }
-
-
-
-// function onMouseOut() {
-//   outerBars.style("opacity", 1);
-//   svg.selectAll("path")
-//     .style("opacity", 1);
-// }
-
-
-
-//HEATMAPS--------------------------------------------------
+    height = width
