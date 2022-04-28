@@ -24,9 +24,9 @@
     <header>
 
         <nav status="">
-            <a class="header-item hidden" href="#types">Types <div class="linkLabel"> chord diagram</div></a>
-            <a class="header-item hidden" href="#stats">Stats <div class="linkLabel"> heat map</div></a>
-            <a class="header-item hidden" href="#competitive">Competitive<div class="linkLabel"> heat map</div></a>
+            <a class="header-item hidden" href="#types">Types <div class="linkLabel"> Chord diagram</div></a>
+            <a class="header-item hidden" href="#stats">Stats <div class="linkLabel"> Heat map</div></a>
+            <a class="header-item hidden" href="#competitive">Competitive<div class="linkLabel">Uses of types</div></a>
         </nav>
     </header>
 
@@ -38,5 +38,39 @@
         <p>stats</p>
     </section>
     <section id="section-competitive">
-        <p>competitve</p>
+        <!-- charts -->
+        
+
+        <div class="tierContainer">
+            <div class="overUsed tier">
+                <div class="tierTitle">Over Used</div>
+                <div class="subTierTitle">Chartes des types</div>
+                <div id="overUsedChart"></div>
+                
+                <div class="rankingTitle">TOP 10</div>
+                <div class="pkmn-list">
+                    <div class="tmpl-pkmn">
+                        <img class="pkmn-sprite"></img>
+                        <div class="pkmn-no"></div>
+                        <div class="pkmn-name"></div>
+                        <!-- <div class="pkmn-types">
+                            <div class="typeOne"></div>
+                            <div class="typeTwo"></div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="underUsed tier">UU
+                <div class="pkmn-list"></div>
+            </div>
+            <div class="rarelyUsed tier">RU
+                <div class="pkmn-list"></div>
+            </div>
+            <div class="neverUsed tier">NU
+                <div class="pkmn-list"></div>
+            </div>
+        </div>
+        
+
     </section>

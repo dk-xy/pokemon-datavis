@@ -1,0 +1,35 @@
+.tierContainer{
+    margin-top: 3vh;
+    width: 100%;
+    display:flex;
+    justify-content: space-evenly;
+    
+    gap: 20px;
+}
+
+
+.tier{
+    background-color: #f1f1f1;
+    padding: 20px;
+    
+    width: 80%;
+}
+
+.tmpl-pkmn{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    text-align: left;
+    align-items: center;
+    justify-content: left;
+    border-bottom: 1px solid #bbbbbb;
+    padding:10px;
+}
+
+.pkmn-sprite{
+    width: 50px;
+}
+
+.pkmn-no{
+    text-align: center;
+}
