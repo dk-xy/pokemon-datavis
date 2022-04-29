@@ -3,7 +3,7 @@ import './css/index.css';
 import { displaySection } from './navigation';
 import pokemon from "../data/pokemon.csv";
 import smogon from "../data/smogon.csv";
-import { renderTiersOnDom, renderPokemons } from './pokemon';
+import { renderTiersOnDom, renderPokemons, renderTierOnDomV2 } from './pokemon';
 import { loadPkmnByName } from "./api"
 
 
@@ -442,7 +442,7 @@ function prepareAndRender(tierName) {
   let charizardCounter = 0;
   let tierSorted = smogon.filter(smgn => smgn.Tier == tierName)
   let topTen = tierSorted.filter(function (d, i) { return i < 10 })
-  console.log(tierName)
+  //console.log(tierName)
   let topTenNames = [];
   topTen.forEach(pkmn => {
     //console.log(pkmn)
@@ -462,7 +462,8 @@ function prepareAndRender(tierName) {
     }
     topTenNames.push(name.toLowerCase())
   })
-  renderTiersOnDom(topTenNames, tierName)
+  //renderTiersOnDom(topTenNames, tierName)
+  renderTierOnDomV2(topTen, tierName)
 }
 //-----------------------------------------------------------------
 
@@ -571,7 +572,7 @@ function makeMiniCharts(matrix, tierName) {
 
 
   // Ajout des liens entre les groupes-------
-  let innerBarsOu = svgTier
+  let innerBarsTier = svgTier
     .datum(resTier)
     .append("g")
     .selectAll("path")
