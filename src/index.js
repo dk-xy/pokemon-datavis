@@ -385,87 +385,60 @@ function onMouseOut() {
 //
 //console.log(smogon)
 //1 - OU----------------------------------------------------------------
-const overUsed = smogon.filter(smgn => smgn.Tier == "OU")
+
 
 //creation tableau simplifié
-let charizardCounter = 0;
-//top 10
-let topTenOU = overUsed.filter(function (d, i) { return i < 10 })
-//console.log(topTenOU)
-let topTenOuNames = [];
-let topTenPkmn = [];
 
+//top 10
+
+
+const overUsed = smogon.filter(smgn => smgn.Tier == "OU")
 let overName = "OU"
 prepareAndRender(overName)
-
-
-
-
-console.log(overUsed)
-
-let tierTypes = [];
-overUsed.forEach(pkmn => {
-  tierTypes.push({ "type1": pkmn["Type.1"], "type2": pkmn["Type.2"] })
-})
-console.log(tierTypes)
-tierTypes.forEach(types => {
-  if (types.type1 != null) {
-    types.type1 = types.type1.toLowerCase()
-  }
-  if (types.type2 != null) {
-    types.type2 = types.type2.toLowerCase()
-  }
-})
-let overUsedMatrix = makeMatrice(tierTypes)
+let overUsedTypes = makeTierTypes(overUsed)
+let overUsedMatrix = makeMatrice(overUsedTypes)
+makeMiniCharts(overUsedMatrix, overName);
 // console.log(matrix)
-console.log(overUsedMatrix)
+//console.log(overUsedMatrix)
 
 
 //CREATION DU GRAPHIQUE--------------------------------------------
 //CADRE DE BASE
 
-let svgOuTier = d3.select("#overUsedChart")
-  .append("svg")
-  .attr("width", 400)
-  .attr("height", 400)
-  .append("g")
-  .attr("transform", "translate(200,200) scale(0.5,0.5)")
 
-
-
-//calcul de la matrice
-let resOuTier = d3.chord()
-  .padAngle(0.03)
-  .sortSubgroups(d3.descending)
-  .sortChords(d3.descending)
-  (overUsedMatrix)
-
-
-makeMiniCharts(svgOuTier, resOuTier)
 
 
 
 //2 - UU----------------------------------------------------------------
+const underUsed = smogon.filter(smgn => smgn.Tier == "UU")
 let underName = "UU"
 prepareAndRender(underName)
+let underUsedTypes = makeTierTypes(underUsed)
+let underUsedMatrix = makeMatrice(underUsedTypes)
+makeMiniCharts(underUsedMatrix, underName);
 //a faire le chord chart
 
 
 //3 - RU------------------------------------------------------------
-
 let rarelyName = "RU"
+const rarelyUsed = smogon.filter(smgn => smgn.Tier == rarelyName)
 prepareAndRender(rarelyName)
-
+let rarelyUsedTypes = makeTierTypes(rarelyUsed)
+let rarelyUsedMatrix = makeMatrice(rarelyUsedTypes)
+makeMiniCharts(rarelyUsedMatrix, rarelyName);
 
 
 //4 - NU------------------------------------------------------------
-
 let neverName = "NU"
+const neverUsed = smogon.filter(smgn => smgn.Tier == neverName)
 prepareAndRender(neverName)
+let neverUsedTypes = makeTierTypes(neverUsed)
+let neverUsedMatrix = makeMatrice(neverUsedTypes)
+makeMiniCharts(neverUsedMatrix, neverName);
 
 
-
-function prepareAndRender(tierName){
+//Fonction de préparatione t d'affichage des listes des top10-----
+function prepareAndRender(tierName) {
   let charizardCounter = 0;
   let tierSorted = smogon.filter(smgn => smgn.Tier == tierName)
   let topTen = tierSorted.filter(function (d, i) { return i < 10 })
@@ -474,7 +447,7 @@ function prepareAndRender(tierName){
   topTen.forEach(pkmn => {
     //console.log(pkmn)
     //gestion des noms "mega" pour envoi de requete à l'api
-  
+
     let name = ""
     if (pkmn.Name.split(' ').length > 1) {
       if (pkmn.Name.split(' ')[1] == "Charizard") {
@@ -489,25 +462,81 @@ function prepareAndRender(tierName){
     }
     topTenNames.push(name.toLowerCase())
   })
-  renderTiersOnDom(topTenNames,tierName)
+  renderTiersOnDom(topTenNames, tierName)
+}
+//-----------------------------------------------------------------
+
+
+
+//Fonction des mini charts-----------------------------------------
+
+//préparation de liste des types
+function makeTierTypes(tier) {
+  let tierTypes = [];
+  tier.forEach(pkmn => {
+    tierTypes.push({ "type1": pkmn["Type.1"], "type2": pkmn["Type.2"] })
+  })
+  console.log(tierTypes)
+  tierTypes.forEach(types => {
+    if (types.type1 != null) {
+      types.type1 = types.type1.toLowerCase()
+    }
+    if (types.type2 != null) {
+      types.type2 = types.type2.toLowerCase()
+    }
+  })
+  return tierTypes;
 }
 
-//Fonction des mini charts--------------------
+
+function makeMiniCharts(matrix, tierName) {
+  let tierNode = "";
+  switch (tierName) {
+    case "OU":
+      tierNode = "#overUsedChart"
+      break;
+    case "UU":
+      tierNode = "#underUsedChart"
+      break;
+    case "RU":
+      tierNode = "#rarelyUsedChart"
+      break;
+    case "NU":
+      tierNode = "#neverUsedChart"
+      break;
+  }
 
 
-function makeMiniCharts(svgOu, resOu) {
+  let svgTier= d3.select(tierNode)
+    .append("svg")
+    .attr("width", 400)
+    .attr("height", 400)
+    .append("g")
+    .attr("transform", "translate(200,200) scale(0.5,0.5)")
+
+
+
+  //calcul de la matrice
+  let resTier = d3.chord()
+    .padAngle(0.03)
+    .sortSubgroups(d3.descending)
+    .sortChords(d3.descending)
+    (matrix)
+
+
+
 
   // Groupes dans la partie exterieur du cercle
-  let outerGroupsOu =
-    svgOu
-      .datum(resOu)
+  let outerGroups =
+    svgTier
+      .datum(resTier)
       .append("g")
       .selectAll("g")
       .data(function (d) { return d.groups; })
       .enter()
       .append("g");
 
-  let outerBarsOu = outerGroupsOu.attr('class', "groupOu")
+  let outerBarsTier = outerGroups.attr('class', "groupTier")
     .attr('type', function (d) { return typeArray[d.index]; })
     .append("path")
     .style("fill", function (d, i) { return colors[i] })
@@ -517,15 +546,15 @@ function makeMiniCharts(svgOu, resOu) {
       .outerRadius(210)
     ) //append  des elements g
 
-  let outerTextOu = outerBarsOu.data(resOu.groups)
+  let outerTextTier = outerBarsTier.data(resTier.groups)
     .enter().append("svg:g")
-    .attr("class", function (d) { return "groupOu " + typeArray[d.index]; })
+    .attr("class", function (d) { return "groupTier " + typeArray[d.index]; })
     .append("svg:textPath")
     .text(function (d) { return typeArray[d.index]; })
 
 
 
-  let textGroupsOu = d3.selectAll('g.groupOu')
+  let textGroupsTier = d3.selectAll('g.groupTier')
     .append("text")
     .each(function (d) { d.angle = (d.startAngle + d.endAngle) / 2; })
     .attr("dy", ".05em")
@@ -542,8 +571,8 @@ function makeMiniCharts(svgOu, resOu) {
 
 
   // Ajout des liens entre les groupes-------
-  let innerBarsOu = svgOu
-    .datum(resOu)
+  let innerBarsOu = svgTier
+    .datum(resTier)
     .append("g")
     .selectAll("path")
     .data(function (d) { return d; })
