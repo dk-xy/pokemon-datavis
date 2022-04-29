@@ -335,7 +335,7 @@ function makeChordChart(svgTarget, resTarget) {
       let color = style.fill
       let colorFill = "fill:"+color;
      innerBars
-        .style("opacity", 0.3);
+        .style("opacity", 0.1);
       this.setAttribute('style', 'opacity:1')
       this.setAttribute('style', colorFill)
 
@@ -553,7 +553,8 @@ function makeMiniCharts(matrix, tierName) {
     .append("path")
 
     .attr('class', 'innerArcs')
-
+    .on("mouseover", onMouseOver)
+    .on("mouseout", onMouseOut)
     // .on("mouseout", onMouseOut)
     .attr("d", d3.ribbon()
       .radius(200)
@@ -562,14 +563,36 @@ function makeMiniCharts(matrix, tierName) {
 
     .style("fill", function (d) { return (colors[d.source.index]) }) // colors depend on the source group. Change to target otherwise.
     .style("stroke", function (d) { return (colors[d.source.index]) })
-}
+
+    function onMouseOver(selected) {
+      console.log(this)
+      const style = getComputedStyle(this)
+       //this.getAttribute('style');
+      let color = style.fill
+      let colorFill = "fill:"+color;
+     innerBarsTier
+        .style("opacity", 0.1);
+      this.setAttribute('style', 'opacity:1')
+      this.setAttribute('style', colorFill)
+
+
+    }
+    
+    function onMouseOut(selected) {
+      innerBarsTier.style("opacity", 1);
+      svg.selectAll(".chord")
+        .style("opacity", 1);
+    }
+
+
+  }
 
 function makeLegend(typeArray, colors){
 
   let keys = typeArray;
   // create a list of keys
   let svg = d3.select('#legendBullets')
-  var color = d3.scaleOrdinal()
+  let color = d3.scaleOrdinal()
   .domain(keys)
   .range(colors);
 
