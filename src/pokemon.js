@@ -23,8 +23,37 @@ function getPkmnImage(id) {
 }
 
 
+//Fonction de préparatione t d'affichage des listes des top10-----
+export function prepareAndRender(tierName) {
+  let charizardCounter = 0;
+  let tierSorted = smogon.filter(smgn => smgn.Tier == tierName)
+  let topTen = tierSorted.filter(function (d, i) { return i < 10 })
+  //console.log(tierName)
+  let topTenNames = [];
+  topTen.forEach(pkmn => {
+    //console.log(pkmn)
+    //gestion des noms "mega" pour envoi de requete à l'api
+
+    let name = ""
+    if (pkmn.Name.split(' ').length > 1) {
+      if (pkmn.Name.split(' ')[1] == "Charizard") {
+        if (charizardCounter == 0) {
+          name = pkmn.Name.split(' ')[1] + "-" + pkmn.Name.split(' ')[0] + "-x"
+          charizardCounter++;
+        } else { name = pkmn.Name.split(' ')[1] + "-" + pkmn.Name.split(' ')[0] + "-y" }
+      } else { name = pkmn.Name.split(' ')[1] + "-" + pkmn.Name.split(' ')[0] }
+    }
+    else {
+      name = pkmn.Name
+    }
+    topTenNames.push(name.toLowerCase())
+  })
+  //renderTiersOnDom(topTenNames, tierName)
+  renderTierOnDomV2(topTen, tierName)
+}
+
 export function renderTierOnDomV2(tier, tierName){
-  console.log(tier)
+  //console.log(tier)
   let node;
   switch (tierName) {
     case "OU":
@@ -46,10 +75,10 @@ export function renderTierOnDomV2(tier, tierName){
 tier.forEach(pokemon=>{
   let pokemonList = node.querySelector('.pkmn-list')
   let pokemonTemplate = node.querySelector('.tmpl-pkmn')
-  console.log(pokemon)
+  //console.log(pokemon)
   let tmpl = pokemonTemplate.cloneNode(true)
   let pokemonID = pokemon["X."]
-  console.log(pokemonID)
+  //console.log(pokemonID)
   tmpl.querySelector('.pkmn-no').textContent += " " + pokemonID;
   tmpl.querySelector('.pkmn-name').textContent = pokemon.Name.charAt(0).toUpperCase() + pokemon.Name.slice(1);//char 1 en maj et le reste en min
   tmpl.querySelector('.pkmn-sprite').src = getPkmnImage(pokemonID)

@@ -210,8 +210,8 @@ var colors = [
   "#725ddd",//dragon
   "#fabd22", //electric
   "#f0b2f0", //fairy
-  "#7e311e", //fighting
-  "#ec400b", //fire
+  "#c72000", //fire
+  "#7e311e", //fight
   "#90a6f0", //flying
   "#76c136", //grass
   "#5f60af", //ghost
@@ -275,8 +275,7 @@ function makeChordChart(svgTarget, resTarget) {
   let outerBars = outerGroups.attr('class', "group")
     .attr('type', function (d) { return typeArray[d.index]; })
     .append("path")
-    .on("mouseover", onMouseOver)
-    .on("mouseout", onMouseOut)
+    .attr("id", (d)=>d.type1)
     .style("fill", function (d, i) { return colors[i] })
     .style("stroke", function (d, i) { return colors[i] })
     .attr("d", d3.arc()
@@ -317,19 +316,38 @@ function makeChordChart(svgTarget, resTarget) {
     .enter()
     .append("path")
     .attr('class', 'innerArcs')
+    .on("mouseover", onMouseOver)
+    .on("mouseout", onMouseOut)
 
-    .on("mouseover", d => onMouseOver(d))
-    .on("mouseout", d => onMouseOut(d))
 
-    // .on("mouseout", onMouseOut)
+    let ribbons = innerBars
     .attr("d", d3.ribbon()
       .radius(200)
     )
-    .attr("id", function (d) { return ([d.type1]) })
-
     .style("fill", function (d) { return (colors[d.source.index]) }) // colors depend on the source group. Change to target otherwise.
     .style("stroke", function (d) { return (colors[d.source.index]) })
 
+
+    function onMouseOver(selected) {
+      console.log(this)
+      const style = getComputedStyle(this)
+       //this.getAttribute('style');
+      let color = style.fill
+      let colorFill = "fill:"+color;
+     innerBars
+        .style("opacity", 0.3);
+      this.setAttribute('style', 'opacity:1')
+      this.setAttribute('style', colorFill)
+
+
+    }
+    
+    function onMouseOut(selected) {
+      innerBars.style("opacity", 1);
+      svg.selectAll(".chord")
+        .style("opacity", 1);
+    }
+    
 }
 
 
@@ -337,24 +355,6 @@ function makeChordChart(svgTarget, resTarget) {
 
 
 //ICI LE PROBLEME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!----------
-function onMouseOver(selected) {
-  //console.log(selected)
-  innerBars
-    // .filter(function(d) { console.log(d); return d })
-    .filter(d => d !== selected)
-    .style("opacity", 0.3);
-  // selected
-  //   .style("opacity", 1)
-  // innerBars.selectAll(".group")
-  //   .filter( d => d !== selected.index)
-  //   .style("opacity", 0.3);
-}
-
-function onMouseOut() {
-  innerBars.style("opacity", 1);
-  svg.selectAll(".chord")
-    .style("opacity", 1);
-}
 
 
 
@@ -391,6 +391,7 @@ function onMouseOut() {
 
 //top 10
 
+makeLegend(typeArray, colors)
 
 const overUsed = smogon.filter(smgn => smgn.Tier == "OU")
 let overName = "OU"
@@ -444,24 +445,7 @@ function prepareAndRender(tierName) {
   let topTen = tierSorted.filter(function (d, i) { return i < 10 })
   //console.log(tierName)
   let topTenNames = [];
-  topTen.forEach(pkmn => {
-    //console.log(pkmn)
-    //gestion des noms "mega" pour envoi de requete à l'api
 
-    let name = ""
-    if (pkmn.Name.split(' ').length > 1) {
-      if (pkmn.Name.split(' ')[1] == "Charizard") {
-        if (charizardCounter == 0) {
-          name = pkmn.Name.split(' ')[1] + "-" + pkmn.Name.split(' ')[0] + "-x"
-          charizardCounter++;
-        } else { name = pkmn.Name.split(' ')[1] + "-" + pkmn.Name.split(' ')[0] + "-y" }
-      } else { name = pkmn.Name.split(' ')[1] + "-" + pkmn.Name.split(' ')[0] }
-    }
-    else {
-      name = pkmn.Name
-    }
-    topTenNames.push(name.toLowerCase())
-  })
   //renderTiersOnDom(topTenNames, tierName)
   renderTierOnDomV2(topTen, tierName)
 }
@@ -471,13 +455,13 @@ function prepareAndRender(tierName) {
 
 //Fonction des mini charts-----------------------------------------
 
-//préparation de liste des types
+//préparation de liste des types-----------------------------------
 function makeTierTypes(tier) {
   let tierTypes = [];
   tier.forEach(pkmn => {
     tierTypes.push({ "type1": pkmn["Type.1"], "type2": pkmn["Type.2"] })
   })
-  console.log(tierTypes)
+  //console.log(tierTypes)
   tierTypes.forEach(types => {
     if (types.type1 != null) {
       types.type1 = types.type1.toLowerCase()
@@ -489,7 +473,7 @@ function makeTierTypes(tier) {
   return tierTypes;
 }
 
-
+//-------------------------------------------------------
 function makeMiniCharts(matrix, tierName) {
   let tierNode = "";
   switch (tierName) {
@@ -514,19 +498,12 @@ function makeMiniCharts(matrix, tierName) {
     .attr("height", 400)
     .append("g")
     .attr("transform", "translate(200,200) scale(0.5,0.5)")
-
-
-
   //calcul de la matrice
   let resTier = d3.chord()
     .padAngle(0.03)
     .sortSubgroups(d3.descending)
     .sortChords(d3.descending)
     (matrix)
-
-
-
-
   // Groupes dans la partie exterieur du cercle
   let outerGroups =
     svgTier
@@ -536,24 +513,21 @@ function makeMiniCharts(matrix, tierName) {
       .data(function (d) { return d.groups; })
       .enter()
       .append("g");
-
   let outerBarsTier = outerGroups.attr('class', "groupTier")
     .attr('type', function (d) { return typeArray[d.index]; })
     .append("path")
+    
     .style("fill", function (d, i) { return colors[i] })
     .style("stroke", function (d, i) { return colors[i] })
     .attr("d", d3.arc()
       .innerRadius(200)
       .outerRadius(210)
     ) //append  des elements g
-
   let outerTextTier = outerBarsTier.data(resTier.groups)
     .enter().append("svg:g")
     .attr("class", function (d) { return "groupTier " + typeArray[d.index]; })
     .append("svg:textPath")
     .text(function (d) { return typeArray[d.index]; })
-
-
 
   let textGroupsTier = d3.selectAll('g.groupTier')
     .append("text")
@@ -569,8 +543,6 @@ function makeMiniCharts(matrix, tierName) {
     .text(function (d, i) { return typeArray[i]; })
 
 
-
-
   // Ajout des liens entre les groupes-------
   let innerBarsTier = svgTier
     .datum(resTier)
@@ -579,18 +551,48 @@ function makeMiniCharts(matrix, tierName) {
     .data(function (d) { return d; })
     .enter()
     .append("path")
+
     .attr('class', 'innerArcs')
 
     // .on("mouseout", onMouseOut)
     .attr("d", d3.ribbon()
       .radius(200)
     )
-    .attr("id", function (d) { return ([d.type1]) })
+    .attr("id", function (d) { return ([d.type1]) })//ICIIIII 
 
     .style("fill", function (d) { return (colors[d.source.index]) }) // colors depend on the source group. Change to target otherwise.
     .style("stroke", function (d) { return (colors[d.source.index]) })
 }
 
+function makeLegend(typeArray, colors){
+
+  let keys = typeArray;
+  // create a list of keys
+  let svg = d3.select('#legendBullets')
+  var color = d3.scaleOrdinal()
+  .domain(keys)
+  .range(colors);
+
+  svg.selectAll("mydots")
+  .data(typeArray)
+  .enter()
+  .append("circle")
+    .attr("cx", 100)
+    .attr("cy", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .attr("r", 7)
+    .style("fill", function(d){ return color(d)})
+// Add one dot in the legend for each name.
+svg.selectAll("mylabels")
+  .data(keys)
+  .enter()
+  .append("text")
+    .attr("x", 120)
+    .attr("y", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .style("fill", function(d){ return color(d)})
+    .text(function(d){ return d})
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle")
+}
 
 
 

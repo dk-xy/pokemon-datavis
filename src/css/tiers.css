@@ -11,8 +11,13 @@
 .tier{
     background-color: #f1f1f1;
     padding: 20px;
-    
     width: 80%;
+}
+
+.legend{
+    background-color: #f1f1f1;
+    padding: 20px;
+    width: 100%;
 }
 
 .tmpl-pkmn{
