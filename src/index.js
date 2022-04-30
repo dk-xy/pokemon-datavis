@@ -12,7 +12,7 @@ console.log("hello")
 
 
 window.addEventListener('hashchange', displaySection)
-
+window.onload = displaySection;
 
 
 //PREPARATION DATA----------------------------------
@@ -247,7 +247,7 @@ let svg = d3.select("#section-types")
   .attr("width", 1000)
   .attr("height", 1000)
   .append("g")
-  .attr("transform", "translate(420,320)")
+  .attr("transform", "translate(600,400) scale(1.2,1.2)")
 
 //calcul de la matrice
 let res = d3.chord()
@@ -275,7 +275,7 @@ function makeChordChart(svgTarget, resTarget) {
   let outerBars = outerGroups.attr('class', "group")
     .attr('type', function (d) { return typeArray[d.index]; })
     .append("path")
-    .attr("id", (d)=>d.type1)
+    .attr("id", (d) => d.type1)
     .style("fill", function (d, i) { return colors[i] })
     .style("stroke", function (d, i) { return colors[i] })
     .attr("d", d3.arc()
@@ -320,7 +320,7 @@ function makeChordChart(svgTarget, resTarget) {
     .on("mouseout", onMouseOut)
 
 
-    let ribbons = innerBars
+  let ribbons = innerBars
     .attr("d", d3.ribbon()
       .radius(200)
     )
@@ -328,26 +328,26 @@ function makeChordChart(svgTarget, resTarget) {
     .style("stroke", function (d) { return (colors[d.source.index]) })
 
 
-    function onMouseOver(selected) {
-      console.log(this)
-      const style = getComputedStyle(this)
-       //this.getAttribute('style');
-      let color = style.fill
-      let colorFill = "fill:"+color;
-     innerBars
-        .style("opacity", 0.1);
-      this.setAttribute('style', 'opacity:1')
-      this.setAttribute('style', colorFill)
+  function onMouseOver(selected) {
+    console.log(this)
+    const style = getComputedStyle(this)
+    //this.getAttribute('style');
+    let color = style.fill
+    let colorFill = "fill:" + color;
+    innerBars
+      .style("opacity", 0.1);
+    this.setAttribute('style', 'opacity:1')
+    this.setAttribute('style', colorFill)
 
 
-    }
-    
-    function onMouseOut(selected) {
-      innerBars.style("opacity", 1);
-      svg.selectAll(".chord")
-        .style("opacity", 1);
-    }
-    
+  }
+
+  function onMouseOut(selected) {
+    innerBars.style("opacity", 1);
+    svg.selectAll(".chord")
+      .style("opacity", 1);
+  }
+
 }
 
 
@@ -492,12 +492,12 @@ function makeMiniCharts(matrix, tierName) {
   }
 
 
-  let svgTier= d3.select(tierNode)
+  let svgTier = d3.select(tierNode)
     .append("svg")
     .attr("width", 400)
     .attr("height", 400)
     .append("g")
-    .attr("transform", "translate(200,200) scale(0.5,0.5)")
+    .attr("transform", "translate(200,150) scale(0.7,0.7)")
   //calcul de la matrice
   let resTier = d3.chord()
     .padAngle(0.03)
@@ -516,7 +516,7 @@ function makeMiniCharts(matrix, tierName) {
   let outerBarsTier = outerGroups.attr('class', "groupTier")
     .attr('type', function (d) { return typeArray[d.index]; })
     .append("path")
-    
+
     .style("fill", function (d, i) { return colors[i] })
     .style("stroke", function (d, i) { return colors[i] })
     .attr("d", d3.arc()
@@ -529,18 +529,18 @@ function makeMiniCharts(matrix, tierName) {
     .append("svg:textPath")
     .text(function (d) { return typeArray[d.index]; })
 
-  let textGroupsTier = d3.selectAll('g.groupTier')
-    .append("text")
-    .each(function (d) { d.angle = (d.startAngle + d.endAngle) / 2; })
-    .attr("dy", ".05em")
-    .attr("class", "titles")
-    .attr("text-anchor", function (d) { return d.angle > Math.PI ? "end" : null; })
-    .attr("transform", function (d) {
-      return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-        + "translate(" + (outerRadius - 100) + ")"
-        + (d.angle > Math.PI ? "rotate(180)" : "");
-    })
-    .text(function (d, i) { return typeArray[i]; })
+  // let textGroupsTier = d3.selectAll('g.groupTier')
+  //   .append("text")
+  //   .each(function (d) { d.angle = (d.startAngle + d.endAngle) / 2; })
+  //   .attr("dy", ".05em")
+  //   .attr("class", "titles")
+  //   .attr("text-anchor", function (d) { return d.angle > Math.PI ? "end" : null; })
+  //   .attr("transform", function (d) {
+  //     return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
+  //       + "translate(" + (outerRadius - 100) + ")"
+  //       + (d.angle > Math.PI ? "rotate(180)" : "");
+  //   })
+  //   .text(function (d, i) { return typeArray[i]; })
 
 
   // Ajout des liens entre les groupes-------
@@ -564,55 +564,124 @@ function makeMiniCharts(matrix, tierName) {
     .style("fill", function (d) { return (colors[d.source.index]) }) // colors depend on the source group. Change to target otherwise.
     .style("stroke", function (d) { return (colors[d.source.index]) })
 
-    function onMouseOver(selected) {
-      console.log(this)
-      const style = getComputedStyle(this)
-       //this.getAttribute('style');
-      let color = style.fill
-      let colorFill = "fill:"+color;
-     innerBarsTier
-        .style("opacity", 0.1);
-      this.setAttribute('style', 'opacity:1')
-      this.setAttribute('style', colorFill)
-
-
-    }
-    
-    function onMouseOut(selected) {
-      innerBarsTier.style("opacity", 1);
-      svg.selectAll(".chord")
-        .style("opacity", 1);
-    }
+  function onMouseOver(selected) {
+    console.log(this)
+    const style = getComputedStyle(this)
+    //this.getAttribute('style');
+    let color = style.fill
+    let colorFill = "fill:" + color;
+    innerBarsTier
+      .style("opacity", 0.1);
+    this.setAttribute('style', 'opacity:1')
+    this.setAttribute('style', colorFill)
 
 
   }
 
-function makeLegend(typeArray, colors){
+  function onMouseOut(selected) {
+    innerBarsTier.style("opacity", 1);
+    svg.selectAll(".chord")
+      .style("opacity", 1);
+  }
+
+
+}
+
+function makeLegend(typeArray, colors) {
 
   let keys = typeArray;
+  let legendIndex = 0;
+  let preventFirst = 0;
+  let legendIndexLabel = 0;
+  let preventFirstLabel = 0;
   // create a list of keys
   let svg = d3.select('#legendBullets')
   let color = d3.scaleOrdinal()
-  .domain(keys)
-  .range(colors);
+    .domain(keys)
+    .range(colors);
 
   svg.selectAll("mydots")
-  .data(typeArray)
-  .enter()
-  .append("circle")
-    .attr("cx", 100)
-    .attr("cy", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .data(typeArray)
+    .enter()
+    .append("circle")
+    .attr("cx", function (d, i) {
+      console.log(i)
+      let position = 100;
+      switch (true) {
+        case i <= 6:
+          position = 100;
+          break;
+        case i <= 12:
+          position = 200;
+          break;
+        case i > 12:
+          position = 300;
+          break;
+      }
+      return position
+    })
+//was 100
+    .attr("cy", function (d, i) {
+      switch (true) {
+        case (i == 7 || i == 13):
+          legendIndex = 0;
+          preventFirst = 0; 
+          break;
+
+        default:
+          break;
+      }
+      if (preventFirst != 0) {
+        legendIndex++;
+      } else { 
+        preventFirst++ 
+      }
+
+      return 100 + legendIndex * 25
+    }) // 100 is where the first dot appears. 25 is the distance between dots
     .attr("r", 7)
-    .style("fill", function(d){ return color(d)})
-// Add one dot in the legend for each name.
-svg.selectAll("mylabels")
-  .data(keys)
-  .enter()
-  .append("text")
-    .attr("x", 120)
-    .attr("y", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
-    .style("fill", function(d){ return color(d)})
-    .text(function(d){ return d})
+    .style("fill", function (d) { return color(d) })
+  // Add one dot in the legend for each name.
+  svg.selectAll("mylabels")
+    .data(keys)
+    .enter()
+    .append("text")
+    .attr("x", function (d, i) {
+      console.log(i)
+      let position = 120;
+      switch (true) {
+        case i <= 6:
+          position = 120;
+          break;
+        case i <= 12:
+          position = 220;
+          break;
+        case i > 12:
+          position = 320;
+          break;
+      }
+      return position
+    })//was 100)
+    .attr("y", function (d, i) {
+      switch (true) {
+        case (i == 7 || i == 13):
+          legendIndexLabel = 0;
+          preventFirstLabel = 0; 
+          break;
+
+        default:
+          break;
+      }
+      if (preventFirstLabel != 0) {
+        legendIndexLabel++;
+      } else { 
+        preventFirstLabel++ 
+      }
+
+      return 102 + legendIndexLabel * 25
+    }) // 100 is where the first dot appears. 25 is the distance between dots
+    .style("fill", function (d) { return color(d) })
+    .text(function (d) { return d })
     .attr("text-anchor", "left")
     .style("alignment-baseline", "middle")
 }
