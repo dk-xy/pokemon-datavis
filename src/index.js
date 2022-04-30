@@ -15,7 +15,7 @@ window.addEventListener('hashchange', displaySection)
 window.onload = displaySection;
 
 
-//PREPARATION DATA----------------------------------
+//PREPARATION DATA--------------------------------------------
 
 const typeArray = [
   "bug",
@@ -37,7 +37,7 @@ const typeArray = [
   "steel",
   "water",
 ]
-
+//Préparation data matricielles ^o^--------------------------------
 //creation de la matrice des types avec value à 0
 function sortTypes(theArray) {
   let lineMatrice = new Array(18);
@@ -226,26 +226,128 @@ var colors = [
 ]
 
 
+//préparation data des violons
+makeStatsArray(pokemon)
+function makeStatsArray(array) {
+  //1 - bug----------------------------------------
+  const bugArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "bug")
+  var statsArray = bugArray.map(function(d){console.log(d); return([d.hp, d.attack, d.defense, d.sp])})
+  console.log(statsArray)
+  // //2 - dark
+  // const darkArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "dark")
+  // let dark_matrice_done = sortTypes(darkArray)
+  // //3 - dragon
+  // const dragonArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "dragon")
+  // let dragon_matrice_done = sortTypes(dragonArray)
+  // //4 - electric
+  // const electricArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "electric")
+  // let electric_matrice_done = sortTypes(electricArray)
+  // //5 - fairy
+  // const fairyArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "fairy")
+  // let fairy_matrice_done = sortTypes(fairyArray)
+  // //6 - fire
+  // const fireArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "fire")
+  // let fire_matrice_done = sortTypes(fireArray)
+  // //7 - fighting
+  // const fightArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "fighting")
+  // let fight_matrice_done = sortTypes(fightArray)
+  // //8 - flying
+  // const flyArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "flying")
+  // let fly_matrice_done = sortTypes(flyArray)
+  // //9 - grass
+  // const grassArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "grass")
+  // let grass_matrice_done = sortTypes(grassArray)
+  // //10 - ghost
+  // const ghostArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "ghost")
+  // let ghost_matrice_done = sortTypes(ghostArray)
+  // //11 - ground
+  // const groundArray = array.filter(pkmn => pkmn.type1 == "ground")
+  // let ground_matrice_done = sortTypes(groundArray)
+  // //12 - ice
+  // const iceArray = array.filter(pkmn => pkmn.type1 == "ice")
+  // let ice_matrice_done = sortTypes(iceArray)
+  // //13 - normal
+  // const normalArray = array.filter(pkmn => pkmn.type1 == "normal")
+  // let normal_matrice_done = sortTypes(iceArray)
+  // //14 - poison
+  // const poisonArray = array.filter(pkmn => pkmn.type1 == "poison")
+  // let poison_matrice_done = sortTypes(poisonArray)
+  // //15 - water
+  // const waterArray = array.filter(pkmn => pkmn.type1 == "psychic")
+  // let water_matrice_done = sortTypes(waterArray)
+  // //16 - psychic
+  // const psyArray = array.filter(pkmn => pkmn.type1 == "rock")
+  // let psychic_matrice_done = sortTypes(psyArray)
+  // //17 - steel
+  // const steelArray = array.filter(pkmn => pkmn.type1 == "steel")
+  // let steel_matrice_done = sortTypes(steelArray)
+  // //18 - rock
+  // const rockArray = array.filter(pkmn => pkmn.type1 == "water")
+  // let rock_matrice_done = sortTypes(rockArray)
+  // //19 - none
+}
 
+//margin de base du projet
 
-//CREATION DU GRAPHIQUE--------------------------------
-
-var margin = { left: 90, top: 90, right: 90, bottom: 90 },
+let margin = { left: 90, top: 90, right: 90, bottom: 90 },
   width = 1000 - margin.left - margin.right, // more flexibility: Math.min(window.innerWidth, 1000)
   height = 1000 - margin.top - margin.bottom, // same: Math.min(window.innerWidth, 1000)
   innerRadius = Math.min(width, height) * .39,
   outerRadius = innerRadius * 1.1;/*www .de  m o2  s .c om*/
 
 
+// append the svg object to the body of the page
+let svgStats = d3.select("#section-stats")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
 
-//FONCTIONS D ANIMATION-------------------------------
 
 
+  // Build and Show the Y scale
+  let y = d3.scaleLinear()
+    .domain([ 3.5,200 ])          // Note that here the Y scale is set manually
+    .range([height, 0])
+  svgStats.append("g").call( d3.axisLeft(y) )
+
+  // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
+  let x = d3.scaleBand()
+    .range([ 0, width ])
+    .domain(["HP", "ATK", "DEF", "SP.ATK", "SP.DEF", "SPD"])
+    .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
+  svgStats.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x))
+
+  // Features of the histogram
+  var histogram = d3.histogram()
+        .domain(y.domain())
+        .thresholds(y.ticks(20))    // Important: how many bins approx are going to be made? It is the 'resolution' of the violin plot
+        .value(d => d)
+
+
+
+
+
+
+
+
+
+
+
+
+
+//CHORD CHART SECTION-----------------------------------------------------------------------------------------
+
+//CREATION DU GRAPHIQUE-------------------------------
 //CADRE DE BASE
 let svg = d3.select("#section-types")
   .append("svg")
   .attr("width", 1000)
-  .attr("height", 1000)
+  .attr("height", 800)
   .append("g")
   .attr("transform", "translate(600,400) scale(1.2,1.2)")
 
@@ -331,7 +433,6 @@ function makeChordChart(svgTarget, resTarget) {
   function onMouseOver(selected) {
     console.log(this)
     const style = getComputedStyle(this)
-    //this.getAttribute('style');
     let color = style.fill
     let colorFill = "fill:" + color;
     innerBars
@@ -352,32 +453,6 @@ function makeChordChart(svgTarget, resTarget) {
 
 
 
-
-
-//ICI LE PROBLEME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!----------
-
-
-
-// function onMouseOver(selected) {
-
-//   console.log(selected)
-//   let arcs = svg.selectAll(".innerArcs")
-//   let filteredArcs = arcs.filter( d => d == selected)
-//   filteredArcs
-//   .style("opacity", 1.0);
-
-//   arcs
-//   .style("opacity", 0.3);
-
-// }
-
-
-
-// function onMouseOut() {
-//   outerBars.style("opacity", 1);
-//   svg.selectAll("path")
-//     .style("opacity", 1);
-// }
 
 
 
@@ -461,7 +536,6 @@ function makeTierTypes(tier) {
   tier.forEach(pkmn => {
     tierTypes.push({ "type1": pkmn["Type.1"], "type2": pkmn["Type.2"] })
   })
-  //console.log(tierTypes)
   tierTypes.forEach(types => {
     if (types.type1 != null) {
       types.type1 = types.type1.toLowerCase()
@@ -523,24 +597,12 @@ function makeMiniCharts(matrix, tierName) {
       .innerRadius(200)
       .outerRadius(210)
     ) //append  des elements g
+
   let outerTextTier = outerBarsTier.data(resTier.groups)
     .enter().append("svg:g")
     .attr("class", function (d) { return "groupTier " + typeArray[d.index]; })
     .append("svg:textPath")
     .text(function (d) { return typeArray[d.index]; })
-
-  // let textGroupsTier = d3.selectAll('g.groupTier')
-  //   .append("text")
-  //   .each(function (d) { d.angle = (d.startAngle + d.endAngle) / 2; })
-  //   .attr("dy", ".05em")
-  //   .attr("class", "titles")
-  //   .attr("text-anchor", function (d) { return d.angle > Math.PI ? "end" : null; })
-  //   .attr("transform", function (d) {
-  //     return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-  //       + "translate(" + (outerRadius - 100) + ")"
-  //       + (d.angle > Math.PI ? "rotate(180)" : "");
-  //   })
-  //   .text(function (d, i) { return typeArray[i]; })
 
 
   // Ajout des liens entre les groupes-------
@@ -605,7 +667,7 @@ function makeLegend(typeArray, colors) {
     .enter()
     .append("circle")
     .attr("cx", function (d, i) {
-      console.log(i)
+      //console.log(i)
       let position = 100;
       switch (true) {
         case i <= 6:
@@ -637,10 +699,11 @@ function makeLegend(typeArray, colors) {
         preventFirst++ 
       }
 
-      return 100 + legendIndex * 25
-    }) // 100 is where the first dot appears. 25 is the distance between dots
+      return 20 + legendIndex * 25
+    }) 
     .attr("r", 7)
     .style("fill", function (d) { return color(d) })
+
   // Add one dot in the legend for each name.
   svg.selectAll("mylabels")
     .data(keys)
@@ -678,7 +741,7 @@ function makeLegend(typeArray, colors) {
         preventFirstLabel++ 
       }
 
-      return 102 + legendIndexLabel * 25
+      return 22 + legendIndexLabel * 25
     }) // 100 is where the first dot appears. 25 is the distance between dots
     .style("fill", function (d) { return color(d) })
     .text(function (d) { return d })

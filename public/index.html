@@ -29,7 +29,7 @@
             <a class="header-item hidden" href="#competitive">Competitive<div class="linkLabel">Uses of types</div></a>
         </nav>
     </header>
-
+ <!-- MEGAWHEEL SECTION---------------------------------------------------------------- -->
     <section id="section-types">
         <p>types</p>
     </section>
@@ -37,14 +37,35 @@
     <section id="section-stats">
         <p>stats</p>
     </section>
+
+
+    <!-- COMPETITIVE SECTION---------------------------------------------------------------- -->
     <section id="section-competitive">
-        <div class="competitiveTitle">Analysis of competitive tiers by types</div>
-        <!-- charts -->
         <div class="legend">
-            <svg id="legendBullets" height=300 width=650></svg>
-            <div class ="competitiveDescription">
-               <div class="competitiveText">Blablabla ladadi ladada</div> 
+            <div class=competitiveTitles>
+                <h1 class="competitiveTitle">Analysis of competitive tiers</h1>
+                <h2 class="competitiveTitle">A look into types and statistics</h2>
             </div>
+            <svg id="legendBullets" height=250 width=450></svg>
+            <div class="competitiveDescription">
+                <div class="competitiveText">
+                    <div class="explanations">          
+                    <h3>Explanations
+                    </h3>
+                        <p><b>Tiers</b> are used to classify pokémons based on their power and their usage rate in
+                            battles.
+                            As cited by <a href="https://www.smogon.com/bw/articles/bw_tiers">Smogon</a>:</p>
+                        <p> <i>
+                                "The standards set by Smogon's tier system seek to balance competitive battling,
+                                ensuring no
+                                Pokemon is "too powerful" or over-centralizes the metagame it appears in."
+                            </i> </p>
+                            <p>In this page, you'll find a breakdown of each tier by types, with the 10 most used pokémon in each tier.</p>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
 
         <div class="tierContainer">
@@ -52,7 +73,7 @@
                 <div class="tierTitle">Over Used</div>
                 <div class="subTierTitle">Chartes des types</div>
                 <div id="overUsedChart"></div>
-                
+
                 <div class="rankingTitle">TOP 10</div>
                 <div class="pkmn-list">
                     <div class="tmpl-pkmn">
@@ -71,7 +92,7 @@
                 <div class="tierTitle">Under Used</div>
                 <div class="subTierTitle">Chartes des types</div>
                 <div id="underUsedChart"></div>
-                
+
                 <div class="rankingTitle">TOP 10</div>
                 <div class="pkmn-list">
                     <div class="tmpl-pkmn">
@@ -89,7 +110,7 @@
                 <div class="tierTitle">Rarely Used</div>
                 <div class="subTierTitle">Chartes des types</div>
                 <div id="rarelyUsedChart"></div>
-                
+
                 <div class="rankingTitle">TOP 10</div>
                 <div class="pkmn-list">
                     <div class="tmpl-pkmn">
@@ -107,7 +128,7 @@
                 <div class="tierTitle">Never Used</div>
                 <div class="subTierTitle">Chartes des types</div>
                 <div id="neverUsedChart"></div>
-                
+
                 <div class="rankingTitle">TOP 10</div>
                 <div class="pkmn-list">
                     <div class="tmpl-pkmn">
@@ -122,6 +143,6 @@
                 </div>
             </div>
         </div>
-        
+
 
     </section>

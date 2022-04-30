@@ -73,6 +73,7 @@ export function renderTierOnDomV2(tier, tierName){
       break;
   }
 tier.forEach(pokemon=>{
+  //console.log(pokemon)
   let pokemonList = node.querySelector('.pkmn-list')
   let pokemonTemplate = node.querySelector('.tmpl-pkmn')
   //console.log(pokemon)
