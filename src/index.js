@@ -226,65 +226,115 @@ var colors = [
 ]
 
 
+
+
+function makeStatsByType(array) {
+  let hp = array.map(function (d) { return d.hp });
+  let atk = array.map(function (d) { return d.attack; })
+  let def = array.map(function (d) { return d.defense; });
+  let sp_atk = array.map(function (d) { return d.sp_attack; });
+  let sp_def = array.map(function (d) { return d.sp_defense; });
+  let spd = array.map(function (d) { return d.speed; });
+
+  const statsForType = {
+    "HP":hp,
+    "ATK": atk,
+    "DEF":def,
+    "SP_ATK":sp_atk,
+    "SP_DEF":sp_def,
+    "SPD":spd
+  }
+  return statsForType
+}
+
 //préparation data des violons
-makeStatsArray(pokemon)
+//Note: j'aurais pu faire une boucle for mais je m'en suis rendu compte trop tard :S )
+let stats = makeStatsArray(pokemon)
 function makeStatsArray(array) {
   //1 - bug----------------------------------------
   const bugArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "bug")
-  var statsArray = bugArray.map(function(d){console.log(d); return([d.hp, d.attack, d.defense, d.sp])})
-  console.log(statsArray)
-  // //2 - dark
-  // const darkArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "dark")
-  // let dark_matrice_done = sortTypes(darkArray)
-  // //3 - dragon
-  // const dragonArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "dragon")
-  // let dragon_matrice_done = sortTypes(dragonArray)
-  // //4 - electric
-  // const electricArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "electric")
-  // let electric_matrice_done = sortTypes(electricArray)
-  // //5 - fairy
-  // const fairyArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "fairy")
-  // let fairy_matrice_done = sortTypes(fairyArray)
-  // //6 - fire
-  // const fireArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "fire")
-  // let fire_matrice_done = sortTypes(fireArray)
-  // //7 - fighting
-  // const fightArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "fighting")
-  // let fight_matrice_done = sortTypes(fightArray)
-  // //8 - flying
-  // const flyArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "flying")
-  // let fly_matrice_done = sortTypes(flyArray)
-  // //9 - grass
-  // const grassArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "grass")
-  // let grass_matrice_done = sortTypes(grassArray)
-  // //10 - ghost
-  // const ghostArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "ghost")
-  // let ghost_matrice_done = sortTypes(ghostArray)
-  // //11 - ground
-  // const groundArray = array.filter(pkmn => pkmn.type1 == "ground")
-  // let ground_matrice_done = sortTypes(groundArray)
-  // //12 - ice
-  // const iceArray = array.filter(pkmn => pkmn.type1 == "ice")
-  // let ice_matrice_done = sortTypes(iceArray)
-  // //13 - normal
-  // const normalArray = array.filter(pkmn => pkmn.type1 == "normal")
-  // let normal_matrice_done = sortTypes(iceArray)
-  // //14 - poison
-  // const poisonArray = array.filter(pkmn => pkmn.type1 == "poison")
-  // let poison_matrice_done = sortTypes(poisonArray)
-  // //15 - water
-  // const waterArray = array.filter(pkmn => pkmn.type1 == "psychic")
-  // let water_matrice_done = sortTypes(waterArray)
-  // //16 - psychic
-  // const psyArray = array.filter(pkmn => pkmn.type1 == "rock")
-  // let psychic_matrice_done = sortTypes(psyArray)
-  // //17 - steel
-  // const steelArray = array.filter(pkmn => pkmn.type1 == "steel")
-  // let steel_matrice_done = sortTypes(steelArray)
-  // //18 - rock
-  // const rockArray = array.filter(pkmn => pkmn.type1 == "water")
-  // let rock_matrice_done = sortTypes(rockArray)
+  let itemBug = makeStatsByType(bugArray)
+
+  //2 - dark
+  const darkArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "dark")
+  let itemDark = makeStatsByType(darkArray)
+
+
+  //3 - dragon
+  const dragonArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "dragon")
+  let itemDragon = makeStatsByType(dragonArray)
+  //4 - electric
+  const electricArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "electric")
+  let itemElectric = makeStatsByType(electricArray)
+  //5 - fairy
+  const fairyArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "fairy")
+  let itemFairy = makeStatsByType(fairyArray)
+  //6 - fire
+  const fireArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "fire")
+  let itemFire = makeStatsByType(fireArray)
+  //7 - fighting
+  const fightArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "fighting")
+  let itemFight = makeStatsByType(fightArray)
+  //8 - flying
+  const flyArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "flying")
+  let itemFly = makeStatsByType(flyArray)
+  //9 - grass
+  const grassArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "grass")
+  let itemGrass = makeStatsByType(grassArray)
+  //10 - ghost
+  const ghostArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "ghost")
+  let itemGhost = makeStatsByType(ghostArray)
+  //11 - ground
+  const groundArray = array.filter(pkmn => pkmn.type1 == "ground")
+  let itemGround = makeStatsByType(groundArray)
+  //12 - ice
+  const iceArray = array.filter(pkmn => pkmn.type1 == "ice")
+  let itemIce = makeStatsByType(iceArray)
+  //13 - normal
+  const normalArray = array.filter(pkmn => pkmn.type1 == "normal")
+  let itemNormal = makeStatsByType(iceArray)
+  //14 - poison
+  const poisonArray = array.filter(pkmn => pkmn.type1 == "poison")
+  let itemPoison = makeStatsByType(poisonArray)
+  //15 - water
+  const waterArray = array.filter(pkmn => pkmn.type1 == "psychic")
+  let itemWater = makeStatsByType(waterArray)
+  //16 - psychic
+  const psyArray = array.filter(pkmn => pkmn.type1 == "rock")
+  let itemPsychic = makeStatsByType(psyArray)
+  //17 - steel
+  const steelArray = array.filter(pkmn => pkmn.type1 == "steel")
+  let itemSteel = makeStatsByType(steelArray)
+  //18 - rock
+  const rockArray = array.filter(pkmn => pkmn.type1 == "water")
+  let itemRock = makeStatsByType(rockArray)
+
+
+  let stats = 
+  {
+   bug: itemBug,
+   dark: itemDark,
+   dragon: itemDragon,
+   electric: itemElectric,
+   fairy: itemFairy,
+   fire: itemFire,
+   fight: itemFight,
+   flying: itemFly,
+   grass: itemGrass,
+   ghost: itemGhost,
+   ground: itemGround,
+   ice: itemIce,
+   normal: itemNormal,
+   poison: itemPoison,
+   water: itemWater,
+   psychic: itemPsychic,
+   steel: itemSteel,
+   rock: itemRock
+ }
+
+console.log(stats)
   // //19 - none
+  return stats;
 }
 
 //margin de base du projet
@@ -295,50 +345,219 @@ let margin = { left: 90, top: 90, right: 90, bottom: 90 },
   innerRadius = Math.min(width, height) * .39,
   outerRadius = innerRadius * 1.1;/*www .de  m o2  s .c om*/
 
+//--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+// let bugAtk = stats.bug["ATK"]
+// console.log(bugAtk)
+// a few features for the box
+
+
+// set the dimensions and margins of the graph
+var margin2 = {top: 10, right: 30, bottom: 30, left: 40},
+  width2 = 600 - margin2.left - margin2.right,
+  height2 = 300 - margin2.top - margin2.bottom;
+var center = 45
+var widthBox = 20
+
+
+let svgStats = d3.select("#section-stats")
+.append("svg")
+.attr("width", width2 + margin.left + margin.right)
+.attr("height", height2 + margin.top + margin.bottom)
+.append("g")
+.attr("transform",
+  "translate(" + margin.left + "," + margin.top + ") ");
+
+
+// Build and Show the Y scale
+let y = d3.scaleLinear()
+  .domain([3.5, 200])          // Note that here the Y scale is set manually
+  .range([height2, 0])
+svgStats.append("g").call(d3.axisLeft(y))
+
+// Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
+let x = d3.scaleBand()
+  .range([0, width2])
+  .domain(["HP", "ATK", "DEF", "SP.ATK", "SP.DEF", "SPD"])
+  .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
+
+  svgStats.append("g")
+  .attr("transform", "translate(0," + height2 + ")")
+  .call(d3.axisBottom(x))
+
+
+
+
+
+
+let hpData = stats.bug["HP"];
+let atkData = stats.bug["ATK"]
+let defData = stats.bug["ATK"]
+
+let spAtkData = stats.bug["SP_ATK"];
+let spDef = stats.bug["SP_DEF"]
+let spdData = stats.bug["SPD"]
+
+let allStatsData = [
+  hpData,
+  atkData, 
+  defData ,
+  spAtkData, 
+  spDef ,
+  spdData 
+]
+
+allStatsData.forEach(stat => {
+  makeBars(stat)
+center = center + 90;
+});
 
 // append the svg object to the body of the page
-let svgStats = d3.select("#section-stats")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+
+
+let barsIndex = 0
+
+//fonctionne mais wonky... et les fait toutes a la meme place vu que var de
+function makeBars(data){
+  
+  // Compute summary statistics used for the box:
+  var data_sorted = data.sort(d3.ascending)
+  var q1 = d3.quantile(data_sorted, .25)
+  var median = d3.quantile(data_sorted, .5)
+  var q3 = d3.quantile(data_sorted, .75)
+  var interQuantileRange = q3 - q1
+  var min = q1 - 1.5 * interQuantileRange
+  var max = q1 + 1.5 * interQuantileRange
+  
+    svgStats
+  .append("line")
+    .attr("x1", center)
+    .attr("x2", center)
+    .attr("y1", y(min) )
+    .attr("y2", y(max) )
+    .attr("stroke", "black")
+  
+  // Show the box
+  svgStats
+  .append("rect")
+    .attr("x", center - widthBox/2)
+    .attr("y", y(q3) )
+    .attr("height", (y(q1)-y(q3)) )
+    .attr("width", widthBox)
+    .attr("stroke", "black")
+    .style("fill", "#69b3a2")
+  
+  // show median, min and max horizontal lines
+  svgStats
+  .selectAll("toto")
+  .data([min, median, max])
+  .enter()
+  .append("line")
+    .attr("x1", center-widthBox/2)
+    .attr("x2", center+widthBox/2)
+    .attr("y1", function(d){ return(y(d))} )
+    .attr("y2", function(d){ return(y(d))} )
+    .attr("stroke", "black")
+  }
+
+
+//VIOLIN NOT WORKING------------------------------------------------------------------------------------
+// var marginViolin = {top: 10, right: 30, bottom: 30, left: 40},
+//     widthViolin = 460 - margin.left - margin.right,
+//     heightViolin = 400 - margin.top - margin.bottom;
+
+// // append the svg object to the body of the page
+// var svgSt = d3.select("#section-stats")
+//   .append("svg")
+//     .attr("width", widthViolin + marginViolin.left + margin.right)
+//     .attr("height", heightViolin + marginViolin.top + margin.bottom)
+//   .append("g")
+//     .attr("transform",
+//           "translate(" + marginViolin.left + "," + marginViolin.top + ")");
+
+// // Read the data and compute summary statistics for each specie
+
+
+//   // Build and Show the Y scale
+//   var y = d3.scaleLinear()
+//     .domain([ 3.5,8 ])          // Note that here the Y scale is set manually
+//     .range([height, 0])
+//   svgSt.append("g").call( d3.axisLeft(y) )
+
+//   // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
+//   var x = d3.scaleBand()
+//     .range([ 0, widthViolin ])
+//     .domain(["HP", "ATK", "DEF", "SP.ATK", "SP.DEF", "SPD"])
+//     .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
+//   svgSt.append("g")
+//     .attr("transform", "translate(0," + heightViolin + ")")
+//     .call(d3.axisBottom(x))
+
+//   // Features of density estimate
+//   var kde = kernelDensityEstimator(kernelEpanechnikov(.2), y.ticks(50))
+//   let sumstat = stats.bug
+//   console.log (sumstat);
+//   // Compute the binning for each group of the dataset
+//   // var sumstat = d3.nest()  // nest function allows to group the calculation per level of a factor
+//   //   .key(function(d) { return d.Species;})
+//   //   .rollup(function(d) {   // For each key..
+//   //     input = d.map(function(g) { return g.Sepal_Length;})    // Keep the variable called Sepal_Length
+//   //     density = kde(input)   // And compute the binning on it.
+//   //     return(density)
+//   //   })
+//   //   .entries(data)
+
+//   // What is the biggest value that the density estimate reach?
+//   var maxNum = 0
+//   let indexStats = 0;
+
+
+//   // The maximum width of a violin must be x.bandwidth = the width dedicated to a group
+//   var xNum = d3.scaleLinear()
+//     .range([0, 1])
+//     .domain([0,200])
+
+//   // Add the shape to this svg!
+//   svgSt
+//     .selectAll("myViolin")
+//     .data(sumstat)
+//     .enter()        // So now we are working group per group
+//     .append("g")
+//       .attr("transform", function(d){ return("translate(" + x(d.key) +" ,0)") } ) // Translation on the right to be at the group position
+//     .append("path")
+//         .datum(function(d){ return(d.value)})     // So now we are working density per density
+//         .style("stroke", "none")
+//         .style("fill","#69b3a2")
+//         .attr("d", d3.area()
+//             .x0(function(d){ return(xNum(-d[1])) } )
+//             .x1(function(d){ return(xNum(d[1])) } )
+//             .y(function(d){ return(y(d[0])) } )
+//             .curve(d3.curveCatmullRom)    // This makes the line smoother to give the violin appearance. Try d3.curveStep to see the difference
+//         )
 
 
 
-  // Build and Show the Y scale
-  let y = d3.scaleLinear()
-    .domain([ 3.5,200 ])          // Note that here the Y scale is set manually
-    .range([height, 0])
-  svgStats.append("g").call( d3.axisLeft(y) )
-
-  // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
-  let x = d3.scaleBand()
-    .range([ 0, width ])
-    .domain(["HP", "ATK", "DEF", "SP.ATK", "SP.DEF", "SPD"])
-    .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
-  svgStats.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x))
-
-  // Features of the histogram
-  var histogram = d3.histogram()
-        .domain(y.domain())
-        .thresholds(y.ticks(20))    // Important: how many bins approx are going to be made? It is the 'resolution' of the violin plot
-        .value(d => d)
-
-
-
-
-
-
-
-
-
-
-
-
+// // 2 functions needed for kernel density estimate
+// function kernelDensityEstimator(kernel, X) {
+//   return function(V) {
+//     return X.map(function(x) {
+//       return [x, d3.mean(V, function(v) { return kernel(x - v); })];
+//     });
+//   };
+// }
+// function kernelEpanechnikov(k) {
+//   return function(v) {
+//     return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
+//   };
+// }
 
 //CHORD CHART SECTION-----------------------------------------------------------------------------------------
 
@@ -682,12 +901,12 @@ function makeLegend(typeArray, colors) {
       }
       return position
     })
-//was 100
+    //was 100
     .attr("cy", function (d, i) {
       switch (true) {
         case (i == 7 || i == 13):
           legendIndex = 0;
-          preventFirst = 0; 
+          preventFirst = 0;
           break;
 
         default:
@@ -695,12 +914,12 @@ function makeLegend(typeArray, colors) {
       }
       if (preventFirst != 0) {
         legendIndex++;
-      } else { 
-        preventFirst++ 
+      } else {
+        preventFirst++
       }
 
       return 20 + legendIndex * 25
-    }) 
+    })
     .attr("r", 7)
     .style("fill", function (d) { return color(d) })
 
@@ -729,7 +948,7 @@ function makeLegend(typeArray, colors) {
       switch (true) {
         case (i == 7 || i == 13):
           legendIndexLabel = 0;
-          preventFirstLabel = 0; 
+          preventFirstLabel = 0;
           break;
 
         default:
@@ -737,8 +956,8 @@ function makeLegend(typeArray, colors) {
       }
       if (preventFirstLabel != 0) {
         legendIndexLabel++;
-      } else { 
-        preventFirstLabel++ 
+      } else {
+        preventFirstLabel++
       }
 
       return 22 + legendIndexLabel * 25
@@ -748,7 +967,6 @@ function makeLegend(typeArray, colors) {
     .attr("text-anchor", "left")
     .style("alignment-baseline", "middle")
 }
-
 
 
 
