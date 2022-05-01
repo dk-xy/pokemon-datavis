@@ -1,14 +1,14 @@
 import * as d3 from 'd3';
 import './css/index.css';
-import { displaySection } from './navigation';
+import { displaySection, toggleSection } from './navigation';
 import pokemon from "../data/pokemon.csv";
 import smogon from "../data/smogon.csv";
-import { renderTiersOnDom, renderPokemons, renderTierOnDomV2 } from './pokemon';
+import { renderTiersOnDom, renderPokemons, renderTierOnDomV2, getTypeColor } from './pokemon';
 import { loadPkmnByName } from "./api"
 import { domOn, domForEach } from './domManipulator';
 
 //Préparation UI--------------------------------
-console.log("hello")
+//console.log("hello")
 
 
 window.addEventListener('hashchange', displaySection)
@@ -329,7 +329,7 @@ function makeStatsArray(array) {
     rock: itemRock
   }
 
- 
+
   // //19 - none
   return itemStats;
 }
@@ -348,7 +348,7 @@ let margin = { left: 90, top: 90, right: 90, bottom: 90 },
 
 //CREATION DU GRAPHIQUE-------------------------------
 //CADRE DE BASE
-let svg = d3.select("#section-types")
+let svg = d3.select("#types-chart")
   .append("svg")
   .attr("width", 1000)
   .attr("height", 800)
@@ -362,7 +362,7 @@ let res = d3.chord()
   .sortChords(d3.descending)
   (matrix)
 
-console.log(smogon)
+//console.log(smogon)
 
 
 makeChordChart(svg, res)
@@ -435,7 +435,7 @@ function makeChordChart(svgTarget, resTarget) {
 
 
   function onMouseOver(selected) {
-    console.log(this)
+    //console.log(this)
     const style = getComputedStyle(this)
     let color = style.fill
     let colorFill = "fill:" + color;
@@ -460,13 +460,32 @@ function makeChordChart(svgTarget, resTarget) {
 //SECTION GRAPHIQUES DES STATS------------------------------------------------ !!
 //j'aurais pu faire mieux mais je commence à fatiguer... j'arrivais pas à faire un foreach sur uun objet
 
+//j'ai trouvé le foreach mais pour une raison ou une autre ça casse tout si je l'active donc je laisse :)
+//note je sais que c'est a cause du .fight et la classe fighting....
+// for (const [key, value] of Object.entries(stats)) {
+//   makeStatsMiniBoxPlot(value, key)
+// }
+
+
 makeStatsMiniBoxPlot(stats.bug, 'bug')
 makeStatsMiniBoxPlot(stats.dark, 'dark')
 makeStatsMiniBoxPlot(stats.dragon, 'dragon')
 makeStatsMiniBoxPlot(stats.electric, 'electric')
 makeStatsMiniBoxPlot(stats.fairy, 'fairy')
 makeStatsMiniBoxPlot(stats.fire, 'fire')
-//creation tableau simplifié
+makeStatsMiniBoxPlot(stats.fight, 'fighting')
+makeStatsMiniBoxPlot(stats.flying, 'flying')
+makeStatsMiniBoxPlot(stats.grass, 'grass')
+makeStatsMiniBoxPlot(stats.ghost, 'ghost')
+makeStatsMiniBoxPlot(stats.ground, 'ground')
+makeStatsMiniBoxPlot(stats.ice, 'ice')
+makeStatsMiniBoxPlot(stats.normal, 'normal')
+makeStatsMiniBoxPlot(stats.poison, 'poison')
+makeStatsMiniBoxPlot(stats.psychic, 'psychic')
+makeStatsMiniBoxPlot(stats.steel, 'steel')
+makeStatsMiniBoxPlot(stats.steel, 'water')
+// creation tableau simplifié
+
 
 //top 10
 //mise en place légendes
@@ -500,7 +519,7 @@ makeMiniCharts(overUsedMatrix, overName);
 //BoxPlots
 let overUsedStats = makeStatsByTier(overUsed)
 makeStatsMiniBoxPlot(overUsedStats, overName)
-console.log(overUsedStats)
+//console.log(overUsedStats)
 // console.log(matrix)
 //console.log(overUsedMatrix)
 
@@ -600,19 +619,32 @@ function makeStatsMiniBoxPlot(data, tierName) {
 
   }
   if (tierNode == "") {
-    tierNode = "."+tierName
+    tierNode = "." + tierName
     isType = true;
   }
-   // set the dimensions and margins of the graph
-   var margin2 = { top: 10, right: 30, bottom: 30, left: 40 },
-   width2 = 600 - margin2.left - margin2.right,
-   height2 = 300 - margin2.top - margin2.bottom;
- var center = 45
- var widthBox = 20
+  let colorCode
+  let colorNumber
+  if (isType) {
+    colorCode = getTypeColor(tierName)
+    colorNumber = colorCode.split('#');
+    document.querySelector(tierNode).setAttribute("Style", "background-color: #" + colorNumber[1] + "73") //73 pour la transparence
+    let typeName = document.querySelector(tierNode).appendChild(document.createElement('div'))
+    typeName.classList.add('stats-title')
+    typeName.setAttribute("Style", " -webkit-text-stroke: 0.5px " + " #c5c5c5 " + ";")
+    typeName.textContent = tierName.toUpperCase();
+  } else {
+    colorCode = "#a6a6a6"
+    colorNumber = "a6a6a6"
+  }
 
-  
-  
- 
+  // set the dimensions and margins of the graph
+  var margin2 = { top: 10, right: 30, bottom: 30, left: 40 },
+    width2 = 600 - margin2.left - margin2.right,
+    height2 = 300 - margin2.top - margin2.bottom;
+  var center = 45
+  var widthBox = 20
+
+
 
   let svgStats = d3.select(tierNode)
     .append("svg")
@@ -622,7 +654,7 @@ function makeStatsMiniBoxPlot(data, tierName) {
     .attr("transform",
       "translate(" + 25 + "," + 25 + ") scale(0.7,0.7)");
 
-   //chartes des stats sur les tiers 
+  //chartes des stats sur les tiers 
   // Build and Show the Y scale
   let y = d3.scaleLinear()
     .domain([0, 160])          // Note that here the Y scale is set manually
@@ -671,23 +703,23 @@ function makeStatsMiniBoxPlot(data, tierName) {
   ]
 
   allStatsData.forEach(stat => {
-    makeBars(stat, svgStats)
+    makeBars(stat, svgStats, colorCode)
     center = center + 87;
   });
 
   //fonction interne à la fonction pour garder les variables
-  function makeBars(data) {
+  function makeBars(data, svgStats, colorCode) {
 
     // Compute summary statistics used for the box:
     let data_sorted = data.sort(d3.ascending)
-    console.log(data_sorted)
+    // console.log(data_sorted)
     let q1 = d3.quantile(data_sorted, 0.25)
     let median = d3.quantile(data_sorted, 0.50)
     let q3 = d3.quantile(data_sorted, 0.75)
     let interQuantileRange = q3 - q1
     let min = q1 - 1.5 * interQuantileRange
     let max = q1 + 1.5 * interQuantileRange
-  
+
     // svgStats
     // .append("line")
     //   .attr("x1", center)
@@ -695,30 +727,30 @@ function makeStatsMiniBoxPlot(data, tierName) {
     //   .attr("y1", y(min) )
     //   .attr("y2", y(max) )
     //   .attr("stroke", "black")
-  
-        // Show the box
-        svgStats
-        .append("rect")
-        .attr("x", center - widthBox / 2)
-        .attr("y", y(q3))
-        .attr("height", (y(q1) - y(q3)))
-        .attr("width", widthBox)
-        .attr("stroke", "white")
-        .attr("rx", "5")
-        .style("fill", "#a6a6a6")
-  
-      // show median, min and max horizontal lines
-      svgStats
-        .selectAll("lines")
-        .data([median])
-        .enter()
-        .append("line")
-        .attr("x1", center - widthBox / 2)
-        .attr("x2", center + widthBox / 2)
-        .attr("y1", function (d) { return (y(d)) })
-        .attr("y2", function (d) { return (y(d)) })
-        .attr("stroke", "red")//ligne verte
-    }
+
+    // Show the box
+    svgStats
+      .append("rect")
+      .attr("x", center - widthBox / 2)
+      .attr("y", y(q3))
+      .attr("height", (y(q1) - y(q3)))
+      .attr("width", widthBox)
+      .attr("stroke", "white")
+      .attr("rx", "5")
+      .style("fill", () => { if (colorCode != null) { return colorCode } else { return "#a6a6a6" } })
+
+    // show median, min and max horizontal lines
+    svgStats
+      .selectAll("lines")
+      .data([median])
+      .enter()
+      .append("line")
+      .attr("x1", center - widthBox / 2)
+      .attr("x2", center + widthBox / 2)
+      .attr("y1", function (d) { return (y(d)) })
+      .attr("y2", function (d) { return (y(d)) })
+      .attr("stroke", "red")//ligne verte
+  }
 
 }
 
@@ -836,7 +868,7 @@ function makeMiniCharts(matrix, tierName) {
     .style("stroke", function (d) { return (colors[d.source.index]) })
 
   function onMouseOver(selected) {
-    console.log(this)
+    // console.log(this)
     const style = getComputedStyle(this)
     //this.getAttribute('style');
     let color = style.fill
@@ -919,7 +951,7 @@ function makeLegend(typeArray, colors) {
     .enter()
     .append("text")
     .attr("x", function (d, i) {
-      console.log(i)
+      //console.log(i)
       let position = 120;
       switch (true) {
         case i <= 6:
@@ -961,67 +993,44 @@ function makeLegend(typeArray, colors) {
 
 
 
+//Fonctions pour les boutons de la homepage
+
+//Affichage background des panels site
+domOn('.homeElement', 'mouseover', evt => {
+
+  evt.currentTarget.classList.add('selected');
+})
+
+//Affichage background des panels site
+domOn('.homeElement', 'mouseout', evt => {
+
+  evt.currentTarget.classList.remove('selected');
+})
 
 
-//VIOLONS PAS REUSSI
-// let bugAtk = stats.bug["ATK"]
-// console.log(bugAtk)
-// a few features for the box
+//Affichage background des panels site
+domOn('.homeElement', 'click', evt => {
 
+  let selection
+  switch (true) {
+    case evt.currentTarget.classList.contains('types'):
+      window.location.hash = 'types'
+      break;
+    case evt.currentTarget.classList.contains('stats'):
+      window.location.hash = 'stats'
+      break;
+    case evt.currentTarget.classList.contains('competitive'):
+      window.location.hash = 'competitive'
+      break;
+    default:
+      break;
+  }
 
-// // set the dimensions and margins of the graph
-// var margin2 = { top: 10, right: 30, bottom: 30, left: 40 },
-//   width2 = 600 - margin2.left - margin2.right,
-//   height2 = 300 - margin2.top - margin2.bottom;
-// var centerMain = 45
-// var widthBox = 20
+  toggleSection(selection)
+})
 
+//Affichage background des panels site
+domOn('.homeElement', 'mouseout', evt => {
 
-// let svgStats = d3.select("#section-stats")
-//   .append("svg")
-//   .attr("width", width2 + margin.left + margin.right)
-//   .attr("height", height2 + margin.top + margin.bottom)
-//   .append("g")
-//   .attr("transform",
-//     "translate(" + margin.left + "," + margin.top + ") ");
-
-// //chartes des stats sur les tiers 
-// // Build and Show the Y scale
-// let y = d3.scaleLinear()
-//   .domain([0, 140])          // Note that here the Y scale is set manually
-//   .range([height2, 0])
-// svgStats.append("g").call(d3.axisLeft(y))
-
-// // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
-// let x = d3.scaleBand()
-//   .range([0, width2])
-//   .domain(["HP", "ATK", "DEF", "SP.ATK", "SP.DEF", "SPD"])
-//   .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
-
-// svgStats.append("g")
-//   .attr("transform", "translate(0," + height2 + ")")
-//   .call(d3.axisBottom(x))
-
-
-// let hpData = stats.bug["HP"];
-// let atkData = stats.bug["ATK"]
-// let defData = stats.bug["ATK"]
-
-// let spAtkData = stats.bug["SP_ATK"];
-// let spDef = stats.bug["SP_DEF"]
-// let spdData = stats.bug["SPD"]
-
-// let allStatsData = [
-//   hpData,
-//   atkData,
-//   defData,
-//   spAtkData,
-//   spDef,
-//   spdData
-// ]
-
-// allStatsData.forEach(stat => {
-//   makeBars(stat)
-//   centerMain = centerMain + 87;
-// });
-
+  evt.currentTarget.classList.remove('selected');
+})

@@ -60,8 +60,8 @@ h3 {
     padding: 10px;
 }
 
-.pkmn-sprite {
-    width: 50px;
+#section-competitive .pkmn-sprite {
+    width: 60px;
 }
 
 .pkmn-no {
@@ -70,9 +70,13 @@ h3 {
 
 .legend {
 
-    width: 87%;
+    width: 96%;
     margin: auto;
+    margin-bottom: 40px !important;
     margin-top: 40px !important;
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.31);
+    -moz-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.31);
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.31);
 }
 
 .legendBullets {
@@ -84,17 +88,44 @@ h3 {
     display: inline-block;
     width: 40%;
     position: relative;
-    height: 250;
-
-
-
+    height: 250px;
+    vertical-align: top;
 
 }
 
+
+@media screen and (min-width: 400px) {
+    .competitiveDescription {
+        display: inline-block;
+        width: 100%;
+        position: relative;
+
+        vertical-align: top;
+    }
+  }
+
+@media screen and (min-width: 500px) {
+    .competitiveDescription {
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        vertical-align: top;
+    }
+  }
+  
+  @media screen and (min-width: 700px) {
+    .competitiveDescription {
+        display: inline-block;
+        width: 40%;
+        position: relative;
+        height: 250px;
+        vertical-align: top;
+    }
+  }
+
 .competitiveText {
-    position: absolute;
-    top: 30%;
-    transform: translateY(-50%);
+    position: relative;
+    display: inline-block;
 
 }
 

@@ -100,7 +100,7 @@ tier.forEach(pokemon=>{
 }
 
 
-function getTypeColor(pokemonType){
+export function getTypeColor(pokemonType){
 //j aurais pu envoyer en parametre mais......
   const typeArray = [
     "bug",
@@ -148,9 +148,9 @@ function getTypeColor(pokemonType){
     if(pokemonType != null){
       let type_sorted = pokemonType.toLowerCase();
       indexColor = typeArray.indexOf(type_sorted)
-      console.log(color)
+      //console.log(color)
       color = colors[indexColor]
-      console.log(color)
+      //console.log(color)
     }
     return color;
 }

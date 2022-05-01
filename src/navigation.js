@@ -4,22 +4,25 @@ const navIcon = navButton.querySelector('span')
 let actualState = false;
 
 
-function toggleSection(section) {
+export function toggleSection(section) {
     //on rajoute le -section du html
     section = "#section-" + section.split('#')[1];
     //console.log(section)
     let section_query = document.querySelector(section)
     if (document.querySelector('section.active')) {
+        document.querySelector('section.active').classList.add('hidden')
       document.querySelector('section.active').classList.remove('active')
+
     }
     if (!section_query.classList.contains('active')) {
       section_query.classList.add("active")
+      section_query.classList.remove("hidden")
     }
   }
   
   
   export function displaySection() {
-    const section = window.location.hash || "#pokemon"
+    const section = window.location.hash || "#home"
     //console.log(section)
     toggleSection(section)
   

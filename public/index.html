@@ -1,4 +1,4 @@
-<sc<!DOCTYPE html>
+<!DOCTYPE html>
     <html lang="en">
 
     <head>
@@ -14,9 +14,9 @@
     </head>
     <div class="head-navigation">
         <button class="toggle-menu"><span class="material-icons">menu</span></button>
-        <a href="">Home</a>
         <div class="sub-head-navigation">
-            <span class="head-navigation-title">Pokémon Data Visualisation
+            <h1 class="head-navigation-title" style="color: #ffcb05; -webkit-text-stroke: 2px #3c5ba6;">Pokémon Data
+                Visualisation</h1>
         </div>
     </div>
     </div>
@@ -24,54 +24,101 @@
     <header>
 
         <nav status="">
-            <a class="header-item hidden" href="#types">Types <div class="linkLabel"> Chord diagram</div></a>
-            <a class="header-item hidden" href="#stats">Stats <div class="linkLabel"> Heat map</div></a>
-            <a class="header-item hidden" href="#competitive">Competitive<div class="linkLabel">Uses of types</div></a>
+            <a class="header-item hidden" href="#home">Home <div class="linkLabel"> about </div></a>
+            <a class="header-item hidden" href="#types">Types <div class="linkLabel"> chord diagram</div></a>
+            <a class="header-item hidden" href="#stats">Stats <div class="linkLabel"> box plots</div></a>
+            <a class="header-item hidden" href="#competitive">Competitive<div class="linkLabel">6v6 analysis</div></a>
         </nav>
     </header>
- <!-- MEGAWHEEL SECTION---------------------------------------------------------------- -->
-    <section id="section-types">
-        <p>types</p>
+
+    <section id="section-home">
+        <div class="home-descr">
+            <h1>Data analysis on a Pokémon dataset</h1>
+            <h2>What's a Pokémon ?</h2>
+            <p>
+                Pokémons are little monsters created by Nintendo & The Pokémon Company. Each monster can have eaither
+                one or two types, in a range of 18 types. As of today, there is 905 creatures that are created ! </br>
+                This is <b>huge</b>, and it also generates alot of data... There's still a meta created around it and
+                people don't go often battling online with Pikachu, unfortunately.
+            </p>
+            <h4>Here's one on my favourite Pokémon</h4>
+            <div class="tmpl-pkmn">
+                <img class="pkmn-sprite"
+                    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/265.png"></img>
+                <div class="pkmn-no">265</div>
+                <div class="pkmn-name">Wurmpl</div>
+                <div class="typeContainer">
+                    <div class="pkmn-type1">Insect</div>
+                    <div class="pkmn-type2">Poison</div>
+                </div>
+            </div>
+
+            <h2>Why did you do this ?</h2>
+            <p>
+                This is a homework made for my data visualisation class, using d3.js. Since I enjoyed training for a
+                JavaScript course by building a basic Pokédex, I decided to do a real school project with this game's
+                data. It was fun to do, and it was hard to find data about some of my favourite games, so I used the
+                data of one of the most played one. (Since it was easier to find ;)
+                Enjoy your visit !
+            </p>
+        </div>
+        <div class="homeButtonContainer">
+            <div class="homeElement type-button types">
+                <div class="buttonTitle">Chord Chart</div>
+                <div class="buttonTitle-second">of types</div>
+            </div>
+            <div class="homeElement stats-button stats">
+                <div class="buttonTitle">Box plots</div>
+                <div class="buttonTitle-second"> of stats</div>
+            </div>
+            <div class="homeElement competitive-button competitive">
+                <div class="buttonTitle">Competitive</div>
+                <div class="buttonTitle-second">6vs6</div>
+            </div>
+        </div>
+    </section>
+    <!-- MEGAWHEEL SECTION---------------------------------------------------------------- -->
+    <section id="section-types" class="hidden">
+        <div id="types-chart"></div>
+        </div>
+        <div class="type-descr"> 
+            <h2>The big type wheel</h2>
+            <p>
+                You can hover on the nodes to see the type relations ! However, you can find a better breakdown on the competitive section
+            </p>
+        </div>
+    </div>
+
     </section>
 
     <section id="section-stats">
-        <div class="bug stats">
+        <div class="stats-descr">
+            <h1>Stats breakdown by type</h1>
+            <h2>What are stats ?</h2>
+            <p>
+                Statistics of pokémon define how they'll do in battle. They each have the same stats but distributed in
+                a different way.
+                Here, you can explore a breakdown of pokemon's stats by type, with a red line defining de median value.
+            </p>
         </div>
-        <div class="dark stats">
-
-        </div>
-        <div class="dark stats">
-
-        </div>
-        <div class="dragon stats">
-
-        </div>
-        <div class="electric stats">
-
-        </div>
-        <div class="fighting stats">
-
-        </div>
-        <div class="ghost stats">
-
-        </div>
-        <div class="ice stats">
-
-        </div>
-        <div class="normal stats">
-
-        </div>
-        <div class="poison stats">
-
-        </div>
-        <div class="psychic stats">
-
-        </div>
-        <div class="steel stats">
-
-        </div>
-        <div class="water stats">
-
+        <div class="statsContainer">
+            <div class="bug stats-chart"></div>
+            <div class="dark stats-chart"></div>
+            <div class="dragon stats-chart"></div>
+            <div class="electric stats-chart"> </div>
+            <div class="fairy stats-chart"></div>
+            <div class="fire stats-chart"></div>
+            <div class="fighting stats-chart"></div>
+            <div class="flying stats-chart"></div>
+            <div class="grass stats-chart"></div>
+            <div class="ghost stats-chart"></div>
+            <div class="ground stats-chart"></div>
+            <div class="ice stats-chart"></div>
+            <div class="normal stats-chart"></div>
+            <div class="poison stats-chart"></div>
+            <div class="psychic stats-chart"></div>
+            <div class="steel stats-chart"></div>
+            <div class="water stats-chart"></div>
         </div>
     </section>
 
@@ -85,21 +132,21 @@
             </div>
             <svg id="legendBullets" height=250 width=450></svg>
             <div class="competitiveDescription">
-                <div class="competitiveText">
-                    <div class="explanations">          
+                <div class="explanations">
                     <h3>Explanations
                     </h3>
-                        <p><b>Tiers</b> are used to classify pokémons based on their power and their usage rate in
-                            battles.
-                            As cited by <a href="https://www.smogon.com/bw/articles/bw_tiers">Smogon</a>:</p>
-                        <p> <i>
-                                "The standards set by Smogon's tier system seek to balance competitive battling,
-                                ensuring no
-                                Pokemon is "too powerful" or over-centralizes the metagame it appears in."
-                            </i> </p>
-                            <p>In this page, you'll find a breakdown of each tier by types, with the 10 most used pokémon in each tier.</p>
-                    </div>
+                    <p><b>Tiers</b> are used to classify pokémons based on their power and their usage rate in
+                        battles.
+                        As cited by <a href="https://www.smogon.com/bw/articles/bw_tiers">Smogon</a>:</p>
+                    <p> <i>
+                            "The standards set by Smogon's tier system seek to balance competitive battling,
+                            ensuring no
+                            Pokemon is "too powerful" or over-centralizes the metagame it appears in."
+                        </i> </p>
+                    <p>In this page, you'll find a breakdown of each tier by types, with the 10 most used pokémon in
+                        each tier.</p>
                 </div>
+
             </div>
 
 
@@ -108,7 +155,7 @@
 
 
         <div class="tierContainer">
-         
+
             <div class="uberUsed tier">
                 <h2 class="tierTitle">Uber Used</h2>
                 <h3 class="subTierTitle">Tier's <b>type</b> analysis</h3>
