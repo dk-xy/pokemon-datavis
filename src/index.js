@@ -254,12 +254,9 @@ function makeStatsArray(array) {
   //1 - bug----------------------------------------
   const bugArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "bug")
   let itemBug = makeStatsByType(bugArray)
-
   //2 - dark
   const darkArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "dark")
   let itemDark = makeStatsByType(darkArray)
-
-
   //3 - dragon
   const dragonArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "dragon")
   let itemDragon = makeStatsByType(dragonArray)
@@ -332,7 +329,7 @@ function makeStatsArray(array) {
     rock: itemRock
   }
 
-
+ 
   // //19 - none
   return itemStats;
 }
@@ -346,100 +343,6 @@ let margin = { left: 90, top: 90, right: 90, bottom: 90 },
   outerRadius = innerRadius * 1.1;/*www .de  m o2  s .c om*/
 
 //--------------------------------------------------------------------------------
-
-
-
-
-
-//VIOLIN NOT WORKING------------------------------------------------------------------------------------
-// var marginViolin = {top: 10, right: 30, bottom: 30, left: 40},
-//     widthViolin = 460 - margin.left - margin.right,
-//     heightViolin = 400 - margin.top - margin.bottom;
-
-// // append the svg object to the body of the page
-// var svgSt = d3.select("#section-stats")
-//   .append("svg")
-//     .attr("width", widthViolin + marginViolin.left + margin.right)
-//     .attr("height", heightViolin + marginViolin.top + margin.bottom)
-//   .append("g")
-//     .attr("transform",
-//           "translate(" + marginViolin.left + "," + marginViolin.top + ")");
-
-// // Read the data and compute summary statistics for each specie
-
-
-//   // Build and Show the Y scale
-//   var y = d3.scaleLinear()
-//     .domain([ 3.5,8 ])          // Note that here the Y scale is set manually
-//     .range([height, 0])
-//   svgSt.append("g").call( d3.axisLeft(y) )
-
-//   // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
-//   var x = d3.scaleBand()
-//     .range([ 0, widthViolin ])
-//     .domain(["HP", "ATK", "DEF", "SP.ATK", "SP.DEF", "SPD"])
-//     .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
-//   svgSt.append("g")
-//     .attr("transform", "translate(0," + heightViolin + ")")
-//     .call(d3.axisBottom(x))
-
-//   // Features of density estimate
-//   var kde = kernelDensityEstimator(kernelEpanechnikov(.2), y.ticks(50))
-//   let sumstat = stats.bug
-//   console.log (sumstat);
-//   // Compute the binning for each group of the dataset
-//   // var sumstat = d3.nest()  // nest function allows to group the calculation per level of a factor
-//   //   .key(function(d) { return d.Species;})
-//   //   .rollup(function(d) {   // For each key..
-//   //     input = d.map(function(g) { return g.Sepal_Length;})    // Keep the variable called Sepal_Length
-//   //     density = kde(input)   // And compute the binning on it.
-//   //     return(density)
-//   //   })
-//   //   .entries(data)
-
-//   // What is the biggest value that the density estimate reach?
-//   var maxNum = 0
-//   let indexStats = 0;
-
-
-//   // The maximum width of a violin must be x.bandwidth = the width dedicated to a group
-//   var xNum = d3.scaleLinear()
-//     .range([0, 1])
-//     .domain([0,200])
-
-//   // Add the shape to this svg!
-//   svgSt
-//     .selectAll("myViolin")
-//     .data(sumstat)
-//     .enter()        // So now we are working group per group
-//     .append("g")
-//       .attr("transform", function(d){ return("translate(" + x(d.key) +" ,0)") } ) // Translation on the right to be at the group position
-//     .append("path")
-//         .datum(function(d){ return(d.value)})     // So now we are working density per density
-//         .style("stroke", "none")
-//         .style("fill","#69b3a2")
-//         .attr("d", d3.area()
-//             .x0(function(d){ return(xNum(-d[1])) } )
-//             .x1(function(d){ return(xNum(d[1])) } )
-//             .y(function(d){ return(y(d[0])) } )
-//             .curve(d3.curveCatmullRom)    // This makes the line smoother to give the violin appearance. Try d3.curveStep to see the difference
-//         )
-
-
-
-// // 2 functions needed for kernel density estimate
-// function kernelDensityEstimator(kernel, X) {
-//   return function(V) {
-//     return X.map(function(x) {
-//       return [x, d3.mean(V, function(v) { return kernel(x - v); })];
-//     });
-//   };
-// }
-// function kernelEpanechnikov(k) {
-//   return function(v) {
-//     return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
-//   };
-// }
 
 //CHORD CHART SECTION-----------------------------------------------------------------------------------------
 
@@ -459,7 +362,7 @@ let res = d3.chord()
   .sortChords(d3.descending)
   (matrix)
 
-
+console.log(smogon)
 
 
 makeChordChart(svg, res)
@@ -554,30 +457,37 @@ function makeChordChart(svgTarget, resTarget) {
 
 
 
+//SECTION GRAPHIQUES DES STATS------------------------------------------------ !!
+//j'aurais pu faire mieux mais je commence à fatiguer... j'arrivais pas à faire un foreach sur uun objet
 
-
-
-
-
-
-
-//COMPETITIVE ANALYSIS--------------------------------------------------
-//STATS ANALYSIS
-
-
-
-
-
-//
-//console.log(smogon)
-//1 - OU----------------------------------------------------------------
-
-
+makeStatsMiniBoxPlot(stats.bug, 'bug')
+makeStatsMiniBoxPlot(stats.dark, 'dark')
+makeStatsMiniBoxPlot(stats.dragon, 'dragon')
+makeStatsMiniBoxPlot(stats.electric, 'electric')
+makeStatsMiniBoxPlot(stats.fairy, 'fairy')
+makeStatsMiniBoxPlot(stats.fire, 'fire')
 //creation tableau simplifié
 
 //top 10
 //mise en place légendes
 makeLegend(typeArray, colors)
+
+
+
+//0 - Uber--------------------------------------------------------------
+const uberUsed = smogon.filter(smgn => smgn.Tier == "Uber")
+let uberName = "Uber"
+prepareAndRender(uberName)
+//ChordCharts
+let uberUsedTypes = makeTierTypes(uberUsed)
+let uberUsedMatrix = makeMatrice(uberUsedTypes)
+makeMiniCharts(uberUsedMatrix, uberName);
+//BoxPlots
+let uberUsedStats = makeStatsByTier(uberUsed)
+makeStatsMiniBoxPlot(uberUsedStats, uberName)
+
+
+
 
 //1 - OU----------------------------------------------------------------
 const overUsed = smogon.filter(smgn => smgn.Tier == "OU")
@@ -594,7 +504,6 @@ console.log(overUsedStats)
 // console.log(matrix)
 //console.log(overUsedMatrix)
 
-console.log(overUsed)
 //CREATION DU GRAPHIQUE--------------------------------------------
 //CADRE DE BASE
 
@@ -669,7 +578,11 @@ function makeStatsByTier(array) {
 function makeStatsMiniBoxPlot(data, tierName) {
   var center = 45
   let tierNode = "";
+  let isType = false;
   switch (tierName) {
+    case "Uber":
+      tierNode = "#uberUsedStats"
+      break;
     case "OU":
       tierNode = "#overUsedStats"
       break;
@@ -682,17 +595,24 @@ function makeStatsMiniBoxPlot(data, tierName) {
     case "NU":
       tierNode = "#neverUsedStats"
       break;
+    default:
+      break;
+
   }
-  // set the dimensions and margins of the graph
-  var margin2 = { top: 10, right: 30, bottom: 30, left: 40 },
-    width2 = 600 - margin2.left - margin2.right,
-    height2 = 300 - margin2.top - margin2.bottom;
-  var center = 45
-  var widthBox = 20
+  if (tierNode == "") {
+    tierNode = "."+tierName
+    isType = true;
+  }
+   // set the dimensions and margins of the graph
+   var margin2 = { top: 10, right: 30, bottom: 30, left: 40 },
+   width2 = 600 - margin2.left - margin2.right,
+   height2 = 300 - margin2.top - margin2.bottom;
+ var center = 45
+ var widthBox = 20
 
-
-
-
+  
+  
+ 
 
   let svgStats = d3.select(tierNode)
     .append("svg")
@@ -702,14 +622,14 @@ function makeStatsMiniBoxPlot(data, tierName) {
     .attr("transform",
       "translate(" + 25 + "," + 25 + ") scale(0.7,0.7)");
 
-  //chartes des stats sur les tiers 
+   //chartes des stats sur les tiers 
   // Build and Show the Y scale
   let y = d3.scaleLinear()
-    .domain([0, 140])          // Note that here the Y scale is set manually
+    .domain([0, 160])          // Note that here the Y scale is set manually
     .range([height2, 0])
   svgStats.append("g")
     //.attr("transform", "translate("+ width2 +" 0)")
-    .call(d3.axisLeft(y).tickValues(["20", "40", "60", "80", "100", "120", "140"]))
+    .call(d3.axisLeft(y).tickValues(["20", "40", "60", "80", "100", "120", "140", "160"]))
     .attr("class", "graphLines")
 
   domForEach(".graphLines .tick line", evt => {
@@ -723,7 +643,6 @@ function makeStatsMiniBoxPlot(data, tierName) {
   })
 
 
-
   // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
   let x = d3.scaleBand()
     .range([0, width2])
@@ -733,7 +652,6 @@ function makeStatsMiniBoxPlot(data, tierName) {
   svgStats.append("g")
     .attr("transform", "translate(0," + height2 + ")")
     .call(d3.axisBottom(x))
-
 
 
   let hpData = data["HP"];
@@ -759,6 +677,7 @@ function makeStatsMiniBoxPlot(data, tierName) {
 
   //fonction interne à la fonction pour garder les variables
   function makeBars(data) {
+
     // Compute summary statistics used for the box:
     let data_sorted = data.sort(d3.ascending)
     console.log(data_sorted)
@@ -768,32 +687,38 @@ function makeStatsMiniBoxPlot(data, tierName) {
     let interQuantileRange = q3 - q1
     let min = q1 - 1.5 * interQuantileRange
     let max = q1 + 1.5 * interQuantileRange
-
-
-
-    // Show the box
-    svgStats
-      .append("rect")
-      .attr("x", center - widthBox / 2)
-      .attr("y", y(q3))
-      .attr("height", (y(q1) - y(q3)))
-      .attr("width", widthBox)
-      .attr("stroke", "white")
-      .attr("rx", "5")
-      .style("fill", "#a6a6a6")
-
-    // show median, min and max horizontal lines
-    svgStats
-      .selectAll("lines")
-      .data([median])
-      .enter()
-      .append("line")
-      .attr("x1", center - widthBox / 2)
-      .attr("x2", center + widthBox / 2)
-      .attr("y1", function (d) { return (y(d)) })
-      .attr("y2", function (d) { return (y(d)) })
-      .attr("stroke", "red")//ligne verte
-  }
+  
+    // svgStats
+    // .append("line")
+    //   .attr("x1", center)
+    //   .attr("x2", center)
+    //   .attr("y1", y(min) )
+    //   .attr("y2", y(max) )
+    //   .attr("stroke", "black")
+  
+        // Show the box
+        svgStats
+        .append("rect")
+        .attr("x", center - widthBox / 2)
+        .attr("y", y(q3))
+        .attr("height", (y(q1) - y(q3)))
+        .attr("width", widthBox)
+        .attr("stroke", "white")
+        .attr("rx", "5")
+        .style("fill", "#a6a6a6")
+  
+      // show median, min and max horizontal lines
+      svgStats
+        .selectAll("lines")
+        .data([median])
+        .enter()
+        .append("line")
+        .attr("x1", center - widthBox / 2)
+        .attr("x2", center + widthBox / 2)
+        .attr("y1", function (d) { return (y(d)) })
+        .attr("y2", function (d) { return (y(d)) })
+        .attr("stroke", "red")//ligne verte
+    }
 
 }
 
@@ -832,6 +757,9 @@ function makeTierTypes(tier) {
 function makeMiniCharts(matrix, tierName) {
   let tierNode = "";
   switch (tierName) {
+    case "Uber":
+      tierNode = "#uberUsedChart"
+      break;
     case "OU":
       tierNode = "#overUsedChart"
       break;
@@ -1057,7 +985,7 @@ function makeLegend(typeArray, colors) {
 //   .attr("transform",
 //     "translate(" + margin.left + "," + margin.top + ") ");
 
-// //chartes des stats sur les tiers
+// //chartes des stats sur les tiers 
 // // Build and Show the Y scale
 // let y = d3.scaleLinear()
 //   .domain([0, 140])          // Note that here the Y scale is set manually

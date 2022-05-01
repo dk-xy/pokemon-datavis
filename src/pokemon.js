@@ -56,6 +56,9 @@ export function renderTierOnDomV2(tier, tierName){
   //console.log(tier)
   let node;
   switch (tierName) {
+    case "Uber":
+      node = document.querySelector('.uberUsed')
+       break;
     case "OU":
      node = document.querySelector('.overUsed')
       break;
@@ -80,15 +83,77 @@ tier.forEach(pokemon=>{
   let tmpl = pokemonTemplate.cloneNode(true)
   let pokemonID = pokemon["X."]
   //console.log(pokemonID)
+  tmpl.classList.remove('hidden')
   tmpl.querySelector('.pkmn-no').textContent += " " + pokemonID;
   tmpl.querySelector('.pkmn-name').textContent = pokemon.Name.charAt(0).toUpperCase() + pokemon.Name.slice(1);//char 1 en maj et le reste en min
-  tmpl.querySelector('.pkmn-sprite').src = getPkmnImage(pokemonID)
+  // tmpl.querySelector('.pkmn-sprite').src = getPkmnImage(pokemonID)
   //getImgLink += pokemon.id + '.png'
   tmpl.querySelector('.pkmn-sprite').setAttribute('src', getPkmnImage(pokemonID))
+  tmpl.querySelector('.pkmn-type1').textContent += " " + pokemon["Type.1"];
+  tmpl.querySelector('.pkmn-type1').setAttribute("Style", "background-color:"+getTypeColor(pokemon["Type.1"]) )
+  if (pokemon["Type.2"] != null) {
+    tmpl.querySelector('.pkmn-type2').textContent += " " + pokemon["Type.2"];
+    tmpl.querySelector('.pkmn-type2').setAttribute("Style", "background-color:"+getTypeColor(pokemon["Type.2"]) )
+  } else {tmpl.querySelector('.pkmn-type2').classList.remove('pkmn-type2')}
   pokemonList.appendChild(tmpl)
 })
 }
 
+
+function getTypeColor(pokemonType){
+//j aurais pu envoyer en parametre mais......
+  const typeArray = [
+    "bug",
+    "dark",
+    "dragon",
+    "electric",
+    "fairy",
+    "fire",
+    "fighting",
+    "flying",
+    "grass",
+    "ghost",
+    "ground",
+    "ice",
+    "normal",
+    "poison",
+    "psychic",
+    "rock",
+    "steel",
+    "water",
+  ]
+
+  var colors = [
+    "#9cae18",//bug 
+    "#4e3d2c",//dark
+    "#725ddd",//dragon
+    "#fabd22", //electric
+    "#f0b2f0", //fairy
+    "#c72000", //fire
+    "#7e311e", //fight
+    "#90a6f0", //flying
+    "#76c136", //grass
+    "#5f60af", //ghost
+    "#d4b156", //ground
+    "#a4e7fb", //ice
+    "#c8c3ba", //normal
+    "#914493", //poison
+    "#ed4681", //psychic
+    "#b8a45b", //rock
+    "#b6b7c0", //steel
+    "#3096ee" //water
+  ]
+  let indexColor
+  let color 
+    if(pokemonType != null){
+      let type_sorted = pokemonType.toLowerCase();
+      indexColor = typeArray.indexOf(type_sorted)
+      console.log(color)
+      color = colors[indexColor]
+      console.log(color)
+    }
+    return color;
+}
 
 
 //OLD------------------------------------------------------
