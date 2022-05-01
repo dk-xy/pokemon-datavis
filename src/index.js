@@ -5,7 +5,7 @@ import pokemon from "../data/pokemon.csv";
 import smogon from "../data/smogon.csv";
 import { renderTiersOnDom, renderPokemons, renderTierOnDomV2 } from './pokemon';
 import { loadPkmnByName } from "./api"
-
+import { domOn, domForEach } from './domManipulator';
 
 //Préparation UI--------------------------------
 console.log("hello")
@@ -237,12 +237,12 @@ function makeStatsByType(array) {
   let spd = array.map(function (d) { return d.speed; });
 
   const statsForType = {
-    "HP":hp,
+    "HP": hp,
     "ATK": atk,
-    "DEF":def,
-    "SP_ATK":sp_atk,
-    "SP_DEF":sp_def,
-    "SPD":spd
+    "DEF": def,
+    "SP_ATK": sp_atk,
+    "SP_DEF": sp_def,
+    "SPD": spd
   }
   return statsForType
 }
@@ -310,31 +310,31 @@ function makeStatsArray(array) {
   let itemRock = makeStatsByType(rockArray)
 
 
-  let stats = 
+  let itemStats =
   {
-   bug: itemBug,
-   dark: itemDark,
-   dragon: itemDragon,
-   electric: itemElectric,
-   fairy: itemFairy,
-   fire: itemFire,
-   fight: itemFight,
-   flying: itemFly,
-   grass: itemGrass,
-   ghost: itemGhost,
-   ground: itemGround,
-   ice: itemIce,
-   normal: itemNormal,
-   poison: itemPoison,
-   water: itemWater,
-   psychic: itemPsychic,
-   steel: itemSteel,
-   rock: itemRock
- }
+    bug: itemBug,
+    dark: itemDark,
+    dragon: itemDragon,
+    electric: itemElectric,
+    fairy: itemFairy,
+    fire: itemFire,
+    fight: itemFight,
+    flying: itemFly,
+    grass: itemGrass,
+    ghost: itemGhost,
+    ground: itemGround,
+    ice: itemIce,
+    normal: itemNormal,
+    poison: itemPoison,
+    water: itemWater,
+    psychic: itemPsychic,
+    steel: itemSteel,
+    rock: itemRock
+  }
 
-console.log(stats)
+ 
   // //19 - none
-  return stats;
+  return itemStats;
 }
 
 //margin de base du projet
@@ -349,124 +349,6 @@ let margin = { left: 90, top: 90, right: 90, bottom: 90 },
 
 
 
-
-
-
-
-
-
-// let bugAtk = stats.bug["ATK"]
-// console.log(bugAtk)
-// a few features for the box
-
-
-// set the dimensions and margins of the graph
-var margin2 = {top: 10, right: 30, bottom: 30, left: 40},
-  width2 = 600 - margin2.left - margin2.right,
-  height2 = 300 - margin2.top - margin2.bottom;
-var center = 45
-var widthBox = 20
-
-
-let svgStats = d3.select("#section-stats")
-.append("svg")
-.attr("width", width2 + margin.left + margin.right)
-.attr("height", height2 + margin.top + margin.bottom)
-.append("g")
-.attr("transform",
-  "translate(" + margin.left + "," + margin.top + ") ");
-
-
-// Build and Show the Y scale
-let y = d3.scaleLinear()
-  .domain([3.5, 200])          // Note that here the Y scale is set manually
-  .range([height2, 0])
-svgStats.append("g").call(d3.axisLeft(y))
-
-// Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
-let x = d3.scaleBand()
-  .range([0, width2])
-  .domain(["HP", "ATK", "DEF", "SP.ATK", "SP.DEF", "SPD"])
-  .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
-
-  svgStats.append("g")
-  .attr("transform", "translate(0," + height2 + ")")
-  .call(d3.axisBottom(x))
-
-
-
-
-
-
-let hpData = stats.bug["HP"];
-let atkData = stats.bug["ATK"]
-let defData = stats.bug["ATK"]
-
-let spAtkData = stats.bug["SP_ATK"];
-let spDef = stats.bug["SP_DEF"]
-let spdData = stats.bug["SPD"]
-
-let allStatsData = [
-  hpData,
-  atkData, 
-  defData ,
-  spAtkData, 
-  spDef ,
-  spdData 
-]
-
-allStatsData.forEach(stat => {
-  makeBars(stat)
-center = center + 90;
-});
-
-// append the svg object to the body of the page
-
-
-let barsIndex = 0
-
-//fonctionne mais wonky... et les fait toutes a la meme place vu que var de
-function makeBars(data){
-  
-  // Compute summary statistics used for the box:
-  var data_sorted = data.sort(d3.ascending)
-  var q1 = d3.quantile(data_sorted, .25)
-  var median = d3.quantile(data_sorted, .5)
-  var q3 = d3.quantile(data_sorted, .75)
-  var interQuantileRange = q3 - q1
-  var min = q1 - 1.5 * interQuantileRange
-  var max = q1 + 1.5 * interQuantileRange
-  
-    svgStats
-  .append("line")
-    .attr("x1", center)
-    .attr("x2", center)
-    .attr("y1", y(min) )
-    .attr("y2", y(max) )
-    .attr("stroke", "black")
-  
-  // Show the box
-  svgStats
-  .append("rect")
-    .attr("x", center - widthBox/2)
-    .attr("y", y(q3) )
-    .attr("height", (y(q1)-y(q3)) )
-    .attr("width", widthBox)
-    .attr("stroke", "black")
-    .style("fill", "#69b3a2")
-  
-  // show median, min and max horizontal lines
-  svgStats
-  .selectAll("toto")
-  .data([min, median, max])
-  .enter()
-  .append("line")
-    .attr("x1", center-widthBox/2)
-    .attr("x2", center+widthBox/2)
-    .attr("y1", function(d){ return(y(d))} )
-    .attr("y2", function(d){ return(y(d))} )
-    .attr("stroke", "black")
-  }
 
 
 //VIOLIN NOT WORKING------------------------------------------------------------------------------------
@@ -675,7 +557,17 @@ function makeChordChart(svgTarget, resTarget) {
 
 
 
+
+
+
+
 //COMPETITIVE ANALYSIS--------------------------------------------------
+//STATS ANALYSIS
+
+
+
+
+
 //
 //console.log(smogon)
 //1 - OU----------------------------------------------------------------
@@ -684,19 +576,25 @@ function makeChordChart(svgTarget, resTarget) {
 //creation tableau simplifié
 
 //top 10
-
+//mise en place légendes
 makeLegend(typeArray, colors)
 
+//1 - OU----------------------------------------------------------------
 const overUsed = smogon.filter(smgn => smgn.Tier == "OU")
 let overName = "OU"
 prepareAndRender(overName)
+//ChordCharts
 let overUsedTypes = makeTierTypes(overUsed)
 let overUsedMatrix = makeMatrice(overUsedTypes)
 makeMiniCharts(overUsedMatrix, overName);
+//BoxPlots
+let overUsedStats = makeStatsByTier(overUsed)
+makeStatsMiniBoxPlot(overUsedStats, overName)
+console.log(overUsedStats)
 // console.log(matrix)
 //console.log(overUsedMatrix)
 
-
+console.log(overUsed)
 //CREATION DU GRAPHIQUE--------------------------------------------
 //CADRE DE BASE
 
@@ -711,8 +609,8 @@ prepareAndRender(underName)
 let underUsedTypes = makeTierTypes(underUsed)
 let underUsedMatrix = makeMatrice(underUsedTypes)
 makeMiniCharts(underUsedMatrix, underName);
-//a faire le chord chart
-
+let underUsedStats = makeStatsByTier(underUsed)
+makeStatsMiniBoxPlot(underUsedStats, underName)
 
 //3 - RU------------------------------------------------------------
 let rarelyName = "RU"
@@ -721,7 +619,8 @@ prepareAndRender(rarelyName)
 let rarelyUsedTypes = makeTierTypes(rarelyUsed)
 let rarelyUsedMatrix = makeMatrice(rarelyUsedTypes)
 makeMiniCharts(rarelyUsedMatrix, rarelyName);
-
+let rarelyUsedStats = makeStatsByTier(rarelyUsed)
+makeStatsMiniBoxPlot(rarelyUsedStats, rarelyName)
 
 //4 - NU------------------------------------------------------------
 let neverName = "NU"
@@ -730,9 +629,10 @@ prepareAndRender(neverName)
 let neverUsedTypes = makeTierTypes(neverUsed)
 let neverUsedMatrix = makeMatrice(neverUsedTypes)
 makeMiniCharts(neverUsedMatrix, neverName);
+let neverUsedStats = makeStatsByTier(neverUsed)
+makeStatsMiniBoxPlot(neverUsedStats, neverName)
 
-
-//Fonction de préparatione t d'affichage des listes des top10-----
+//AFFICHAGE TOP10 ON DOM-------------------------A AMELIORER-------
 function prepareAndRender(tierName) {
   let charizardCounter = 0;
   let tierSorted = smogon.filter(smgn => smgn.Tier == tierName)
@@ -743,11 +643,163 @@ function prepareAndRender(tierName) {
   //renderTiersOnDom(topTenNames, tierName)
   renderTierOnDomV2(topTen, tierName)
 }
-//-----------------------------------------------------------------
+//-------------------------------------------------------------------
+function makeStatsByTier(array) {
+  let hp = array.map(function (d) { return d["HP"] });
+  let atk = array.map(function (d) { return d["Attack"]; })
+  let def = array.map(function (d) { return d["Defense"]; });
+  let sp_atk = array.map(function (d) { return d["Sp..Atk"]; }); // y a un dataset qui est mieux que l'autre dans son organisation des donnée quand même...
+  let sp_def = array.map(function (d) { return d["Sp..Def"]; }); //et c'est pas celui là ><
+  let spd = array.map(function (d) { return d["Speed"]; });
+
+  const statsForType = {
+    "HP": hp,
+    "ATK": atk,
+    "DEF": def,
+    "SP_ATK": sp_atk,
+    "SP_DEF": sp_def,
+    "SPD": spd
+  }
+  return statsForType
+}
 
 
 
-//Fonction des mini charts-----------------------------------------
+//MINI VOODOO BOX PLOT POUR LES STATS------------------------------------------
+function makeStatsMiniBoxPlot(data, tierName) {
+  var center = 45
+  let tierNode = "";
+  switch (tierName) {
+    case "OU":
+      tierNode = "#overUsedStats"
+      break;
+    case "UU":
+      tierNode = "#underUsedStats"
+      break;
+    case "RU":
+      tierNode = "#rarelyUsedStats"
+      break;
+    case "NU":
+      tierNode = "#neverUsedStats"
+      break;
+  }
+   // set the dimensions and margins of the graph
+   var margin2 = { top: 10, right: 30, bottom: 30, left: 40 },
+   width2 = 600 - margin2.left - margin2.right,
+   height2 = 300 - margin2.top - margin2.bottom;
+ var center = 45
+ var widthBox = 20
+
+  
+  
+ 
+
+  let svgStats = d3.select(tierNode)
+    .append("svg")
+    .attr("width", 400)
+    .attr("height", 300)
+    .append("g")
+    .attr("transform",
+      "translate(" + 25 + "," + 25 + ") scale(0.7,0.7)");
+
+  //chartes des stats sur les tiers 
+  // Build and Show the Y scale
+  let y = d3.scaleLinear()
+    .domain([0, 140])          // Note that here the Y scale is set manually
+    .range([height2, 0])
+  svgStats.append("g").call(d3.axisLeft(y))
+
+  // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
+  let x = d3.scaleBand()
+    .range([0, width2])
+    .domain(["HP", "ATK", "DEF", "SP.ATK", "SP.DEF", "SPD"])
+    .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
+
+  svgStats.append("g")
+    .attr("transform", "translate(0," + height2 + ")")
+    .call(d3.axisBottom(x))
+
+
+  let hpData = data["HP"];
+  let atkData = data["ATK"]
+  let defData = data["ATK"]
+  let spAtkData = data["SP_ATK"];
+  let spDef = data["SP_DEF"]
+  let spdData = data["SPD"]
+
+  let allStatsData = [
+    hpData,
+    atkData,
+    defData,
+    spAtkData,
+    spDef,
+    spdData
+  ]
+
+  allStatsData.forEach(stat => {
+    makeBars(stat, svgStats)
+    center = center + 87;
+  });
+
+  //fonction interne à la fonction pour garder les variables
+  function makeBars(data) {
+
+    // Compute summary statistics used for the box:
+    let data_sorted = data.sort(d3.ascending)
+    console.log(data_sorted)
+    let q1 = d3.quantile(data_sorted, 0.25)
+    let median = d3.quantile(data_sorted, 0.50)
+    let q3 = d3.quantile(data_sorted, 0.75)
+    let interQuantileRange = q3 - q1
+    let min = q1 - 1.5 * interQuantileRange
+    let max = q1 + 1.5 * interQuantileRange
+  
+    // svgStats
+    // .append("line")
+    //   .attr("x1", center)
+    //   .attr("x2", center)
+    //   .attr("y1", y(min) )
+    //   .attr("y2", y(max) )
+    //   .attr("stroke", "black")
+  
+    // Show the box
+    svgStats
+      .append("rect")
+      .attr("x", center - widthBox / 2)
+      .attr("y", y(q3))
+      .attr("height", (y(q1) - y(q3)))
+      .attr("width", widthBox)
+      .attr("stroke", "black")
+      .style("fill", "#69b3a2")
+  
+    // show median, min and max horizontal lines
+    svgStats
+      .selectAll("lines")
+      .data([median])
+      .enter()
+      .append("line")
+      .attr("x1", center - widthBox / 2)
+      .attr("x2", center + widthBox / 2)
+      .attr("y1", function (d) { return (y(d)) })
+      .attr("y2", function (d) { return (y(d)) })
+      .attr("stroke", "red")
+  }
+
+}
+
+
+// append the svg object to the body of the page
+
+
+let barsIndex = 0
+
+//fonctionne mais wonky... et les fait toutes a la meme place vu que var de
+
+
+
+
+
+//MINI CHORD CHART DES TYPES POUR LES TIERS------------------------------------
 
 //préparation de liste des types-----------------------------------
 function makeTierTypes(tier) {
@@ -970,4 +1022,68 @@ function makeLegend(typeArray, colors) {
 
 
 
+
+
+
+//VIOLONS PAS REUSSI
+// let bugAtk = stats.bug["ATK"]
+// console.log(bugAtk)
+// a few features for the box
+
+
+// // set the dimensions and margins of the graph
+// var margin2 = { top: 10, right: 30, bottom: 30, left: 40 },
+//   width2 = 600 - margin2.left - margin2.right,
+//   height2 = 300 - margin2.top - margin2.bottom;
+// var centerMain = 45
+// var widthBox = 20
+
+
+// let svgStats = d3.select("#section-stats")
+//   .append("svg")
+//   .attr("width", width2 + margin.left + margin.right)
+//   .attr("height", height2 + margin.top + margin.bottom)
+//   .append("g")
+//   .attr("transform",
+//     "translate(" + margin.left + "," + margin.top + ") ");
+
+// //chartes des stats sur les tiers 
+// // Build and Show the Y scale
+// let y = d3.scaleLinear()
+//   .domain([0, 140])          // Note that here the Y scale is set manually
+//   .range([height2, 0])
+// svgStats.append("g").call(d3.axisLeft(y))
+
+// // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
+// let x = d3.scaleBand()
+//   .range([0, width2])
+//   .domain(["HP", "ATK", "DEF", "SP.ATK", "SP.DEF", "SPD"])
+//   .padding(0.05)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
+
+// svgStats.append("g")
+//   .attr("transform", "translate(0," + height2 + ")")
+//   .call(d3.axisBottom(x))
+
+
+// let hpData = stats.bug["HP"];
+// let atkData = stats.bug["ATK"]
+// let defData = stats.bug["ATK"]
+
+// let spAtkData = stats.bug["SP_ATK"];
+// let spDef = stats.bug["SP_DEF"]
+// let spdData = stats.bug["SPD"]
+
+// let allStatsData = [
+//   hpData,
+//   atkData,
+//   defData,
+//   spAtkData,
+//   spDef,
+//   spdData
+// ]
+
+// allStatsData.forEach(stat => {
+//   makeBars(stat)
+//   centerMain = centerMain + 87;
+// });
 
