@@ -332,7 +332,7 @@ function makeStatsArray(array) {
     rock: itemRock
   }
 
- 
+
   // //19 - none
   return itemStats;
 }
@@ -683,16 +683,16 @@ function makeStatsMiniBoxPlot(data, tierName) {
       tierNode = "#neverUsedStats"
       break;
   }
-   // set the dimensions and margins of the graph
-   var margin2 = { top: 10, right: 30, bottom: 30, left: 40 },
-   width2 = 600 - margin2.left - margin2.right,
-   height2 = 300 - margin2.top - margin2.bottom;
- var center = 45
- var widthBox = 20
+  // set the dimensions and margins of the graph
+  var margin2 = { top: 10, right: 30, bottom: 30, left: 40 },
+    width2 = 600 - margin2.left - margin2.right,
+    height2 = 300 - margin2.top - margin2.bottom;
+  var center = 45
+  var widthBox = 20
 
-  
-  
- 
+
+
+
 
   let svgStats = d3.select(tierNode)
     .append("svg")
@@ -707,7 +707,22 @@ function makeStatsMiniBoxPlot(data, tierName) {
   let y = d3.scaleLinear()
     .domain([0, 140])          // Note that here the Y scale is set manually
     .range([height2, 0])
-  svgStats.append("g").call(d3.axisLeft(y))
+  svgStats.append("g")
+    //.attr("transform", "translate("+ width2 +" 0)")
+    .call(d3.axisLeft(y).tickValues(["20", "40", "60", "80", "100", "120", "140"]))
+    .attr("class", "graphLines")
+
+  domForEach(".graphLines .tick line", evt => {
+    evt.setAttribute("x2", "600")
+    evt.setAttribute("fill-opacity", "0.5")
+    evt.setAttribute("stroke-opacity", "0.35")
+  })
+
+  domForEach(".tick text", evt => {
+    evt.setAttribute("font-size", "1.5em")
+  })
+
+
 
   // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
   let x = d3.scaleBand()
@@ -718,6 +733,7 @@ function makeStatsMiniBoxPlot(data, tierName) {
   svgStats.append("g")
     .attr("transform", "translate(0," + height2 + ")")
     .call(d3.axisBottom(x))
+
 
 
   let hpData = data["HP"];
@@ -743,7 +759,6 @@ function makeStatsMiniBoxPlot(data, tierName) {
 
   //fonction interne à la fonction pour garder les variables
   function makeBars(data) {
-
     // Compute summary statistics used for the box:
     let data_sorted = data.sort(d3.ascending)
     console.log(data_sorted)
@@ -753,15 +768,9 @@ function makeStatsMiniBoxPlot(data, tierName) {
     let interQuantileRange = q3 - q1
     let min = q1 - 1.5 * interQuantileRange
     let max = q1 + 1.5 * interQuantileRange
-  
-    // svgStats
-    // .append("line")
-    //   .attr("x1", center)
-    //   .attr("x2", center)
-    //   .attr("y1", y(min) )
-    //   .attr("y2", y(max) )
-    //   .attr("stroke", "black")
-  
+
+
+
     // Show the box
     svgStats
       .append("rect")
@@ -769,9 +778,10 @@ function makeStatsMiniBoxPlot(data, tierName) {
       .attr("y", y(q3))
       .attr("height", (y(q1) - y(q3)))
       .attr("width", widthBox)
-      .attr("stroke", "black")
-      .style("fill", "#69b3a2")
-  
+      .attr("stroke", "white")
+      .attr("rx", "5")
+      .style("fill", "#a6a6a6")
+
     // show median, min and max horizontal lines
     svgStats
       .selectAll("lines")
@@ -782,7 +792,7 @@ function makeStatsMiniBoxPlot(data, tierName) {
       .attr("x2", center + widthBox / 2)
       .attr("y1", function (d) { return (y(d)) })
       .attr("y2", function (d) { return (y(d)) })
-      .attr("stroke", "red")
+      .attr("stroke", "red")//ligne verte
   }
 
 }
@@ -1047,7 +1057,7 @@ function makeLegend(typeArray, colors) {
 //   .attr("transform",
 //     "translate(" + margin.left + "," + margin.top + ") ");
 
-// //chartes des stats sur les tiers 
+// //chartes des stats sur les tiers
 // // Build and Show the Y scale
 // let y = d3.scaleLinear()
 //   .domain([0, 140])          // Note that here the Y scale is set manually
