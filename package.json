@@ -4,8 +4,8 @@
   "description": "Exercice 2",
   "main": "src/index.js",
   "scripts": {
-    "build-lib": "babel src -d lib",
-    "build": "webpack",
+    "build": "babel src -d lib",
+    "prod": "webpack",
     "start": "webpack-dev-server"
   },
   "author": "Noemi Romano",
