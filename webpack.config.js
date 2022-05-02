@@ -17,7 +17,7 @@ module.exports = {
 
     output: {
         path: path.resolve('dist'),
-        filename: 'main.js'
+        filename: 'index_bundle.js'
     },
     module: {
         rules: [
