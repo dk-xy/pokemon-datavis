@@ -230,10 +230,27 @@ font-size: 20px;
 
   .mini-nav{
       text-align: right;
+
   }
   .mini-nav a{
       font-size: 20px !important;
       font-weight: 400 !important;
       margin-top:20px;
       text-align: right;
+      background-color:#dc0a2d;
+      border-radius: 5px;
+      color: white;
+      padding: 5px 10px 5px 10px;
   }
+
+  .mini-nav a:hover{
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    margin-top:20px;
+    text-align: right;
+    background-color:#3a3a3a;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 10px 5px 10px;
+    transition-duration: 0.5s;
+}
