@@ -152,8 +152,8 @@ background-color:  #914493;
 }
 
 .homeElement{
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     border-radius: 20px;
     background-color: #f1f1f1;
     margin: auto;
@@ -186,8 +186,9 @@ background-color:  #914493;
 }
 
 .type-descr{
+    position: relative;
     background-color: #f1f1f1;
-    width: 35%;
+    width: 400px;
     height: 35%;
     margin: auto;
     margin-bottom: 40px !important;
@@ -256,4 +257,10 @@ font-size: 20px;
     padding: 5px 10px 5px 10px;
 
     transition-duration: 0.5s;
+}
+
+.homeElement img{
+ width: 100px;
+ margin: auto;
+ padding: 10px;
 }
