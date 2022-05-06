@@ -264,3 +264,30 @@ font-size: 20px;
  margin: auto;
  padding: 10px;
 }
+
+.fixedLegend {
+    position: fixed;
+    background-color: #f1f1f1;
+    left: 0;
+    top: 70%;
+    box-shadow: 0px 2px 2px rgb(120, 120, 120);
+
+}
+
+.legendButton{
+    position: absolute;
+    border: none;
+    padding: 5px 10px 5px 10px;
+    border-radius: 0px 5px 5px 0px;
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    margin-top:20px;
+    text-align: right;
+    background-color:#3a3a3a;
+    color: #dc0a2d;
+}
+
+.fixedLegend svg{
+    display: none;
+    
+}

@@ -483,13 +483,23 @@ makeStatsMiniBoxPlot(stats.normal, 'normal')
 makeStatsMiniBoxPlot(stats.poison, 'poison')
 makeStatsMiniBoxPlot(stats.psychic, 'psychic')
 makeStatsMiniBoxPlot(stats.steel, 'steel')
-makeStatsMiniBoxPlot(stats.steel, 'water')
+makeStatsMiniBoxPlot(stats.water, 'water')
 // creation tableau simplifié
 
 
 //top 10
 //mise en place légendes
 makeLegend(typeArray, colors)
+domOn('.legendButton', 'click', evt=>{
+  let legend = document.querySelector('#legendBullets')
+
+  if (legend.style.display == 'block') {
+    legend.style.display = 'none'
+  } else {
+    legend.style.display = 'block'
+  }
+  
+})
 
 
 
@@ -909,7 +919,7 @@ function makeLegend(typeArray, colors) {
     .append("circle")
     .attr("cx", function (d, i) {
       //console.log(i)
-      let position = 100;
+      let position = 50;
       switch (true) {
         case i <= 6:
           position = 100;

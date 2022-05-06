@@ -86,7 +86,7 @@ h3 {
 
 .competitiveDescription {
     display: inline-block;
-    width: 40%;
+    width: 90%;
     position: relative;
     height: 250px;
     vertical-align: top;
@@ -97,7 +97,7 @@ h3 {
 @media screen and (min-width: 400px) {
     .competitiveDescription {
         display: inline-block;
-        width: 100%;
+        width: 90%;
         position: relative;
 
         vertical-align: top;
@@ -107,7 +107,7 @@ h3 {
 @media screen and (min-width: 500px) {
     .competitiveDescription {
         display: inline-block;
-        width: 100%;
+        width: 90%;
         position: relative;
         vertical-align: top;
     }
@@ -116,7 +116,7 @@ h3 {
   @media screen and (min-width: 700px) {
     .competitiveDescription {
         display: inline-block;
-        width: 40%;
+        width: 90%;
         position: relative;
         height: 250px;
         vertical-align: top;

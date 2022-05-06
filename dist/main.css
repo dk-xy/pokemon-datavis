@@ -446,7 +446,7 @@ h3 {
 
 .competitiveDescription {
     display: inline-block;
-    width: 40%;
+    width: 90%;
     position: relative;
     height: 250px;
     vertical-align: top;
@@ -457,7 +457,7 @@ h3 {
 @media screen and (min-width: 400px) {
     .competitiveDescription {
         display: inline-block;
-        width: 100%;
+        width: 90%;
         position: relative;
 
         vertical-align: top;
@@ -467,7 +467,7 @@ h3 {
 @media screen and (min-width: 500px) {
     .competitiveDescription {
         display: inline-block;
-        width: 100%;
+        width: 90%;
         position: relative;
         vertical-align: top;
     }
@@ -476,7 +476,7 @@ h3 {
   @media screen and (min-width: 700px) {
     .competitiveDescription {
         display: inline-block;
-        width: 40%;
+        width: 90%;
         position: relative;
         height: 250px;
         vertical-align: top;
@@ -824,4 +824,31 @@ font-size: 20px;
  width: 100px;
  margin: auto;
  padding: 10px;
+}
+
+.fixedLegend {
+    position: fixed;
+    background-color: #f1f1f1;
+    left: 0;
+    top: 70%;
+    box-shadow: 0px 2px 2px rgb(120, 120, 120);
+
+}
+
+.legendButton{
+    position: absolute;
+    border: none;
+    padding: 5px 10px 5px 10px;
+    border-radius: 0px 5px 5px 0px;
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    margin-top:20px;
+    text-align: right;
+    background-color:#3a3a3a;
+    color: #dc0a2d;
+}
+
+.fixedLegend svg{
+    display: none;
+    
 }

@@ -34,6 +34,7 @@ export function toggleSection(section) {
 function openNav() {
     document.querySelector("header").style.width = "250px";
     document.querySelector("body").style.marginLeft = "250px";
+    document.querySelector(".fixedLegend").style.marginLeft = "250px"
     actualState = true;
 }
 
@@ -44,6 +45,7 @@ function closeNav() {
     })
     document.querySelector("header").style.width = "0";
     document.querySelector("body").style.marginLeft = "0";
+    document.querySelector(".fixedLegend").style.marginLeft = "0"
     actualState = false;
 }
 
