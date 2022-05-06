@@ -365,9 +365,9 @@ let res = d3.chord()
 //console.log(smogon)
 
 
-makeChordChart(svg, res)
+makeChordChart(svg, res, typeArray)
 
-function makeChordChart(svgTarget, resTarget) {
+function makeChordChart(svgTarget, resTarget, typeArray) {
   // Groupes dans la partie exterieur du cercle
   let outerGroups =
     svg
@@ -421,7 +421,7 @@ function makeChordChart(svgTarget, resTarget) {
     .data(function (d) { return d; })
     .enter()
     .append("path")
-    .attr('class', 'innerArcs')
+    .attr('class', function (d)  {return typeArray[d.source.index]+"Arc" + ' innerArcs'} )
     .on("mouseover", onMouseOver)
     .on("mouseout", onMouseOut)
 
@@ -436,6 +436,7 @@ function makeChordChart(svgTarget, resTarget) {
 
   function onMouseOver(selected) {
     //console.log(this)
+  
     const style = getComputedStyle(this)
     let color = style.fill
     let colorFill = "fill:" + color;
@@ -443,7 +444,15 @@ function makeChordChart(svgTarget, resTarget) {
       .style("opacity", 0.1);
     this.setAttribute('style', 'opacity:1')
     this.setAttribute('style', colorFill)
+    domForEach('.innerArcs', evt=>{
+      if (evt.classList.contains(this.classList[0])) {
+        evt.setAttribute('style', 'opacity:0.7; '+colorFill+";")
+        // evt.setAttribute('style', colorFill)
+      }
+  this.setAttribute('style', 'opacity:1')
+  this.setAttribute('style', colorFill)
 
+  })
 
   }
 
