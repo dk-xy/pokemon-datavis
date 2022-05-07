@@ -186,18 +186,42 @@ background-color:  #914493;
 }
 
 .type-descr{
-    position: relative;
+
     background-color: #f1f1f1;
-    width: 400px;
-    height: 35%;
+    width: auto;
     margin: auto;
     margin-bottom: 40px !important;
     margin-top: 40px !important;
+    margin-right: 20px;
     padding: 20px;
     -webkit-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.31);
     -moz-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.31);
     box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.31);
     display: inline-block;
+}
+
+
+#toolTip{
+width: 30%;
+-webkit-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.31);
+-moz-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.31);
+box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.31);
+padding: 10px 20px 10px 20px;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: space-between;
+
+}
+
+.toolTipTypeOne{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.toolTipNumber{
+    font-size: 32px;
+    font-weight: 800;
 }
 
 #section-types{
@@ -283,6 +307,14 @@ font-size: 20px;
     font-weight: 400 !important;
     margin-top:20px;
     text-align: right;
+    background-color:#dc0a2d;
+    color: #ffffff;
+    transition-duration: 1s;
+
+}
+
+.legendButton:hover{
+    transition-duration: 0.5s;
     background-color:#3a3a3a;
     color: #dc0a2d;
 }
@@ -290,4 +322,10 @@ font-size: 20px;
 .fixedLegend svg{
     display: none;
     
+}
+
+.typesWheelContainer{
+    display:flex;
+    direction: row;
+    flex-wrap: wrap;
 }

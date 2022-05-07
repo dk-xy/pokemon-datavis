@@ -9,7 +9,7 @@ import { domOn, domForEach } from './domManipulator';
 
 //Préparation UI--------------------------------
 //console.log("hello")
-
+console.log(pokemon)
 
 window.addEventListener('hashchange', displaySection)
 window.onload = displaySection;
@@ -104,7 +104,7 @@ function sortTypes(theArray) {
         lineMatrice[17]++
         break;
       case pkmn.type2 == null:
-        let typeIndex = (typeArray.indexOf(pkmn.type1)) - 1
+        let typeIndex = (typeArray.indexOf(pkmn.type1)) 
         lineMatrice[typeIndex]++
         break;
       default:
@@ -114,9 +114,13 @@ function sortTypes(theArray) {
   return lineMatrice;
 }
 
+
+console.log(typeArray.indexOf("bug"))
+
 function makeMatrice(array) {
   //1 - bug----------------------------------------
   const bugArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "bug")
+  //console.log(bugArray)
   let bug_matrice_done = sortTypes(bugArray)
   //2 - dark
   const darkArray = array.filter(pkmn => pkmn.type1.toLowerCase() == "dark")
@@ -340,7 +344,7 @@ let margin = { left: 90, top: 90, right: 90, bottom: 90 },
   width = 1000 - margin.left - margin.right, // more flexibility: Math.min(window.innerWidth, 1000)
   height = 1000 - margin.top - margin.bottom, // same: Math.min(window.innerWidth, 1000)
   innerRadius = Math.min(width, height) * .39,
-  outerRadius = innerRadius * 1.1;/*www .de  m o2  s .c om*/
+  outerRadius = innerRadius * 1.1;
 
 //--------------------------------------------------------------------------------
 
@@ -365,9 +369,9 @@ let res = d3.chord()
 //console.log(smogon)
 
 
-makeChordChart(svg, res, typeArray)
+makeChordChart(svg, res, typeArray, matrix)
 
-function makeChordChart(svgTarget, resTarget, typeArray) {
+function makeChordChart(svgTarget, resTarget, typeArray, matrix) {
   // Groupes dans la partie exterieur du cercle
   let outerGroups =
     svg
@@ -421,7 +425,7 @@ function makeChordChart(svgTarget, resTarget, typeArray) {
     .data(function (d) { return d; })
     .enter()
     .append("path")
-    .attr('class', function (d)  {return typeArray[d.source.index]+"Arc" + ' innerArcs'} )
+    .attr('class', function (d) { return typeArray[d.source.index] + "Arc " + typeArray[d.target.index] + "Sec" + ' innerArcs' })
     .on("mouseover", onMouseOver)
     .on("mouseout", onMouseOut)
 
@@ -436,23 +440,52 @@ function makeChordChart(svgTarget, resTarget, typeArray) {
 
   function onMouseOver(selected) {
     //console.log(this)
-  
+    //console.log(selected)
+    //recup style
     const style = getComputedStyle(this)
     let color = style.fill
     let colorFill = "fill:" + color;
+    //set des bars a opacité diff sur hover
     innerBars
       .style("opacity", 0.1);
     this.setAttribute('style', 'opacity:1')
     this.setAttribute('style', colorFill)
-    domForEach('.innerArcs', evt=>{
+    domForEach('.innerArcs', evt => {
       if (evt.classList.contains(this.classList[0])) {
-        evt.setAttribute('style', 'opacity:0.7; '+colorFill+";")
+        evt.setAttribute('style', 'opacity:0.7; ' + colorFill + ";")
         // evt.setAttribute('style', colorFill)
       }
-  this.setAttribute('style', 'opacity:1')
-  this.setAttribute('style', colorFill)
+      this.setAttribute('style', 'opacity:1')
+      this.setAttribute('style', colorFill)
+    })
+    //toolTip
+    //recup de la class Principale
+    document.querySelector('#toolTip').classList.remove('hidden')
+    let firstType = this.classList[0].split('Arc')[0]
+    //marchait pas du coup j'ai fait un forEach
+    let firstTypeIndex = typeArray.indexOf(firstType)
+    let secondaryType;
+    console.log(firstTypeIndex)
+    document.querySelector('.toolTipTypeOne').textContent = firstType
+    let typeNumber;
+    //console.log(matrix[1])
+    //si y a un type secondaire
+    if (this.classList[1] != "innerArcs") {
+      secondaryType = this.classList[1].split('Sec')[0]
+      let secTypeIndex = typeArray.indexOf(secondaryType)
+      document.querySelector('.toolTipTypeTwo').textContent = secondaryType
+      typeNumber = matrix[firstTypeIndex][secTypeIndex]
+    } else {
+      typeNumber = matrix[firstTypeIndex].reduce(function(a, b){
+        return a + b;
+    }, 0);
+    }
+    
+    document.querySelector('.toolTipNumber').textContent = typeNumber
+    document.querySelector('#toolTip').style= "background-color:"+ getTypeColor(firstType) +"66" //66 pour la Transpa
 
-  })
+    //check si il a un type secondaire, on va chercher l'index
+    //si pas, on prend le nom a la case [0]
 
   }
 
@@ -499,7 +532,7 @@ makeStatsMiniBoxPlot(stats.water, 'water')
 //top 10
 //mise en place légendes
 makeLegend(typeArray, colors)
-domOn('.legendButton', 'click', evt=>{
+domOn('.legendButton', 'click', evt => {
   let legend = document.querySelector('#legendBullets')
 
   if (legend.style.display == 'block') {
@@ -507,7 +540,7 @@ domOn('.legendButton', 'click', evt=>{
   } else {
     legend.style.display = 'block'
   }
-  
+
 })
 
 
