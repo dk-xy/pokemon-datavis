@@ -1,268 +1,283 @@
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pokémon Data Visualisation</title>
-        <link rel="stylesheet" href="main.css" type="text/css"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons" />
-        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-        <script defer src="main.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Data Visualisation</title>
+    <link rel="stylesheet" href="main.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons" />
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script defer src="main.js"></script>
 
 
-    <link href="main.css" rel="stylesheet"></head>
-    <div class="head-navigation">
-        <button class="toggle-menu"><span class="material-icons">menu</span></button>
-        <div class="sub-head-navigation">
-            <h1 class="head-navigation-title" style="color: #ffcb05; -webkit-text-stroke: 2px #3c5ba6;">Pokémon Data
-                Visualisation</h1>
+<link href="main.css" rel="stylesheet"></head>
+<div class="head-navigation">
+    <button class="toggle-menu"><span class="material-icons">menu</span></button>
+    <div class="sub-head-navigation">
+        <h1 class="head-navigation-title" style="color: #ffcb05; -webkit-text-stroke: 2px #3c5ba6;">Pokémon Data
+            Visualisation</h1>
+    </div>
+</div>
+</div>
+
+<header>
+
+    <nav status="">
+        <a class="header-item hidden" href="#home">Home <div class="linkLabel"> about </div></a>
+        <a class="header-item hidden" href="#types">Types <div class="linkLabel"> chord diagram</div></a>
+        <a class="header-item hidden" href="#stats">Stats <div class="linkLabel"> box plots</div></a>
+        <a class="header-item hidden" href="#competitive">Competitive<div class="linkLabel">6v6 analysis</div></a>
+    </nav>
+</header>
+
+<section id="section-home">
+    <div class="home-descr">
+        <h1>Data analysis on a Pokémon dataset</h1>
+        <h2>What's a Pokémon ?</h2>
+        <p>
+            Pokémons are little monsters created by Nintendo & The Pokémon Company. Each monster can have eaither
+            one or two types, in a range of 18 types. As of today, there is 905 creatures that are created ! </br>
+            This is <b>huge</b>, and it also generates alot of data... There's still a meta created around it and
+            people don't go often battling online with Pikachu, unfortunately.
+        </p>
+        <h4>Here's one on my favourite Pokémon</h4>
+        <div class="tmpl-pkmn">
+            <img class="pkmn-sprite"
+                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/265.png"></img>
+            <div class="pkmn-no">265</div>
+            <div class="pkmn-name">Wurmpl</div>
+            <div class="typeContainer">
+                <div class="pkmn-type1">Insect</div>
+                <div class="pkmn-type2">Poison</div>
+            </div>
+        </div>
+
+        <h2>Why did you do this ?</h2>
+        <p>
+            This is a homework made for my data visualisation class, using d3.js. Since I enjoyed training for a
+            JavaScript course by building a basic Pokédex, I decided to do a real school project with this game's
+            data. It was fun to do, and it was hard to find data about some of my favourite games, so I used the
+            data of one of the most played one. (Since it was easier to find ;)
+            Enjoy your visit !
+        </p>
+        <div class="mini-nav"> <a href="#types">next ›</a></div>
+    </div>
+    <div class="homeButtonContainer">
+        <div class="homeElement type-button types">
+            <img src="chords.svg" alt="">
+            <div class="buttonTitle">Chord Chart</div>
+            <div class="buttonTitle-second">of types</div>
+        </div>
+        <div class="homeElement stats-button stats">
+            <img src="boxplot.svg" alt="">
+            <div class="buttonTitle">Box plots</div>
+            <div class="buttonTitle-second"> of stats</div>
+        </div>
+        <div class="homeElement competitive-button competitive">
+            <img src="pokeball.svg" alt="">
+            <div class="buttonTitle">Competitive</div>
+            <div class="buttonTitle-second">6vs6</div>
         </div>
     </div>
-    </div>
-
-    <header>
-
-        <nav status="">
-            <a class="header-item hidden" href="#home">Home <div class="linkLabel"> about </div></a>
-            <a class="header-item hidden" href="#types">Types <div class="linkLabel"> chord diagram</div></a>
-            <a class="header-item hidden" href="#stats">Stats <div class="linkLabel"> box plots</div></a>
-            <a class="header-item hidden" href="#competitive">Competitive<div class="linkLabel">6v6 analysis</div></a>
-        </nav>
-    </header>
-
-    <section id="section-home">
-        <div class="home-descr">
-            <h1>Data analysis on a Pokémon dataset</h1>
-            <h2>What's a Pokémon ?</h2>
-            <p>
-                Pokémons are little monsters created by Nintendo & The Pokémon Company. Each monster can have eaither
-                one or two types, in a range of 18 types. As of today, there is 905 creatures that are created ! </br>
-                This is <b>huge</b>, and it also generates alot of data... There's still a meta created around it and
-                people don't go often battling online with Pikachu, unfortunately.
-            </p>
-            <h4>Here's one on my favourite Pokémon</h4>
-            <div class="tmpl-pkmn">
-                <img class="pkmn-sprite"
-                    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/265.png"></img>
-                <div class="pkmn-no">265</div>
-                <div class="pkmn-name">Wurmpl</div>
-                <div class="typeContainer">
-                    <div class="pkmn-type1">Insect</div>
-                    <div class="pkmn-type2">Poison</div>
-                </div>
-            </div>
-
-            <h2>Why did you do this ?</h2>
-            <p>
-                This is a homework made for my data visualisation class, using d3.js. Since I enjoyed training for a
-                JavaScript course by building a basic Pokédex, I decided to do a real school project with this game's
-                data. It was fun to do, and it was hard to find data about some of my favourite games, so I used the
-                data of one of the most played one. (Since it was easier to find ;)
-                Enjoy your visit !
-            </p>
-            <div class="mini-nav"> <a href="#types">next ›</a></div>
-        </div>
-        <div class="homeButtonContainer">
-            <div class="homeElement type-button types">
-                <img src="chords.svg" alt="">
-                <div class="buttonTitle">Chord Chart</div>
-                <div class="buttonTitle-second">of types</div>
-            </div>
-            <div class="homeElement stats-button stats">
-                <img src="boxplot.svg" alt="">
-                <div class="buttonTitle">Box plots</div>
-                <div class="buttonTitle-second"> of stats</div>
-            </div>
-            <div class="homeElement competitive-button competitive">
-                <img src="pokeball.svg" alt="">
-                <div class="buttonTitle">Competitive</div>
-                <div class="buttonTitle-second">6vs6</div>
-            </div>
-        </div>
-    </section>
-    <!-- MEGAWHEEL SECTION---------------------------------------------------------------- -->
-    <section id="section-types" class="hidden">
+</section>
+<!-- MEGAWHEEL SECTION---------------------------------------------------------------- -->
+<section id="section-types" class="hidden">
+    <div class="typesWheelContainer">
         <div id="types-chart"></div>
-        </div>
-        <div class="type-descr"> 
+    </div>
+    <div class="wheelInfo">
+        <div class="type-descr">
             <h2>The big type wheel</h2>
             <p>
-                You can hover on the nodes to see the type relations ! However, you can find a better breakdown on the competitive section
+                You can hover on the nodes to see the type relations ! However, you can find a better breakdown on the
+                competitive section
             </p>
             <div class="mini-nav"> <a href="#stats">next ›</a></div>
         </div>
+        <div id="toolTip" class="hidden">
+            <div class="toolTipTypes">
+                <div class="toolTipTypeOne"></div>
+                <div class="toolTipTypeTwo"></div>
+            </div>
+            <div class="toolTipNumber"></div>
+        </div>
     </div>
 
-    </section>
+    </div>
 
-    <section id="section-stats">
-        <div class="stats-descr">
-            <h1>Stats breakdown by type</h1>
-            <h2>What are stats ?</h2>
-            <p>
-                Statistics of pokémon define how they'll do in battle. They each have the same stats but distributed in
-                a different way.
-                Here, you can explore a breakdown of pokemon's stats by type, with a red line defining de median value.
-            </p>
-            <div class="mini-nav"><a href="#competitive">next ›</a></div>
+    </div>
+    <!--Partie tootltip :D-->
+
+</section>
+
+<section id="section-stats">
+    <div class="stats-descr">
+        <h1>Stats breakdown by type</h1>
+        <h2>What are stats ?</h2>
+        <p>
+            Statistics of pokémon define how they'll do in battle. They each have the same stats but distributed in
+            a different way.
+            Here, you can explore a breakdown of pokemon's stats by type, with a red line defining de median value.
+        </p>
+        <div class="mini-nav"><a href="#competitive">next ›</a></div>
+    </div>
+    <div class="statsContainer">
+        <div class="bug stats-chart"></div>
+        <div class="dark stats-chart"></div>
+        <div class="dragon stats-chart"></div>
+        <div class="electric stats-chart"> </div>
+        <div class="fairy stats-chart"></div>
+        <div class="fire stats-chart"></div>
+        <div class="fighting stats-chart"></div>
+        <div class="flying stats-chart"></div>
+        <div class="grass stats-chart"></div>
+        <div class="ghost stats-chart"></div>
+        <div class="ground stats-chart"></div>
+        <div class="ice stats-chart"></div>
+        <div class="normal stats-chart"></div>
+        <div class="poison stats-chart"></div>
+        <div class="psychic stats-chart"></div>
+        <div class="steel stats-chart"></div>
+        <div class="water stats-chart"></div>
+    </div>
+</section>
+
+
+<!-- COMPETITIVE SECTION---------------------------------------------------------------- -->
+<section id="section-competitive">
+    <div class="legend">
+        <div class=competitiveTitles>
+            <h1 class="competitiveTitle">Analysis of competitive tiers</h1>
+            <h2 class="competitiveTitle">A look into types and statistics</h2>
         </div>
-        <div class="statsContainer">
-            <div class="bug stats-chart"></div>
-            <div class="dark stats-chart"></div>
-            <div class="dragon stats-chart"></div>
-            <div class="electric stats-chart"> </div>
-            <div class="fairy stats-chart"></div>
-            <div class="fire stats-chart"></div>
-            <div class="fighting stats-chart"></div>
-            <div class="flying stats-chart"></div>
-            <div class="grass stats-chart"></div>
-            <div class="ghost stats-chart"></div>
-            <div class="ground stats-chart"></div>
-            <div class="ice stats-chart"></div>
-            <div class="normal stats-chart"></div>
-            <div class="poison stats-chart"></div>
-            <div class="psychic stats-chart"></div>
-            <div class="steel stats-chart"></div>
-            <div class="water stats-chart"></div>
-        </div>
-    </section>
-
-
-    <!-- COMPETITIVE SECTION---------------------------------------------------------------- -->
-    <section id="section-competitive">
-        <div class="legend">
-            <div class=competitiveTitles>
-                <h1 class="competitiveTitle">Analysis of competitive tiers</h1>
-                <h2 class="competitiveTitle">A look into types and statistics</h2>
-            </div>
-            <div class="competitiveDescription">
-                <div class="explanations">
-                    <h3>Explanations
-                    </h3>
-                    <p><b>Tiers</b> are used to classify pokémons based on their power and their usage rate in
-                        battles.
-                        As cited by <a href="https://www.smogon.com/bw/articles/bw_tiers">Smogon</a>:</p>
-                    <p> <i>
-                            "The standards set by Smogon's tier system seek to balance competitive battling,
-                            ensuring no
-                            Pokemon is "too powerful" or over-centralizes the metagame it appears in."
-                        </i> </p>
-                    <p>In this page, you'll find a breakdown of each tier by types, with the 10 most used pokémon in
-                        each tier.</p>
-                </div>
-
+        <div class="competitiveDescription">
+            <div class="explanations">
+                <h3>Explanations
+                </h3>
+                <p><b>Tiers</b> are used to classify pokémons based on their power and their usage rate in
+                    battles.
+                    As cited by <a href="https://www.smogon.com/bw/articles/bw_tiers">Smogon</a>:</p>
+                <p> <i>
+                        "The standards set by Smogon's tier system seek to balance competitive battling,
+                        ensuring no
+                        Pokemon is "too powerful" or over-centralizes the metagame it appears in."
+                    </i> </p>
+                <p>In this page, you'll find a breakdown of each tier by types, with the 10 most used pokémon in
+                    each tier.</p>
             </div>
 
-            <div class="mini-nav"><a href="#home">home ›</a></div>
         </div>
 
+        <div class="mini-nav"><a href="#home">home ›</a></div>
+    </div>
 
 
-        <div class="tierContainer">
 
-            <div class="uberUsed tier">
-                <h2 class="tierTitle">Uber Used</h2>
-                <h3 class="subTierTitle">Tier's <b>type</b> analysis</h3>
-                <div id="uberUsedChart"></div>
-                <h3 class="subTierTitle">Tier's <b>stats</b> analysis</h3>
-                <div id="uberUsedStats"></div>
-                <h3 class="rankingTitle">TOP 10</h3>
-                <div class="pkmn-list">
-                    <div class="tmpl-pkmn hidden">
-                        <img class="pkmn-sprite"></img>
-                        <div class="pkmn-no"></div>
-                        <div class="pkmn-name"></div>
-                        <div class="typeContainer">
-                            <div class="pkmn-type1"></div>
-                            <div class="pkmn-type2"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="overUsed tier">
-                <h2 class="tierTitle">Over Used</h2>
-                <h3 class="subTierTitle">Tier's <b>type</b> analysis</h3>
-                <div id="overUsedChart"></div>
-                <h3 class="subTierTitle">Tier's <b>stats</b> analysis</h3>
-                <div id="overUsedStats"></div>
-                <h3 class="rankingTitle">TOP 10</h3>
-                <div class="pkmn-list">
-                    <div class="tmpl-pkmn hidden">
-                        <img class="pkmn-sprite"></img>
-                        <div class="pkmn-no"></div>
-                        <div class="pkmn-name"></div>
-                        <div class="typeContainer">
-                            <div class="pkmn-type1"></div>
-                            <div class="pkmn-type2"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="tierContainer">
 
-            <div class="underUsed tier">
-                <h2 class="tierTitle">Under Used</h2>
-                <h3 class="subTierTitle">Tier's <b>type</b> analysis</h3>
-                <div id="underUsedChart"></div>
-                <h3 class="subTierTitle">Tier's <b>stats</b> analysis</h3>
-                <div id="underUsedStats"></div>
-                <h3 class="rankingTitle">TOP 10</h3>
-                <div class="pkmn-list">
-                    <div class="tmpl-pkmn hidden">
-                        <img class="pkmn-sprite"></img>
-                        <div class="pkmn-no"></div>
-                        <div class="pkmn-name"></div>
-                        <div class="typeContainer">
-                            <div class="pkmn-type1"></div>
-                            <div class="pkmn-type2"></div>
-                        </div>
+        <div class="uberUsed tier">
+            <h2 class="tierTitle">Uber Used</h2>
+            <h3 class="subTierTitle">Tier's <b>type</b> analysis</h3>
+            <div id="uberUsedChart"></div>
+            <h3 class="subTierTitle">Tier's <b>stats</b> analysis</h3>
+            <div id="uberUsedStats"></div>
+            <h3 class="rankingTitle">TOP 10</h3>
+            <div class="pkmn-list">
+                <div class="tmpl-pkmn hidden">
+                    <img class="pkmn-sprite"></img>
+                    <div class="pkmn-no"></div>
+                    <div class="pkmn-name"></div>
+                    <div class="typeContainer">
+                        <div class="pkmn-type1"></div>
+                        <div class="pkmn-type2"></div>
                     </div>
                 </div>
             </div>
-            <div class="rarelyUsed tier">
-                <h2 class="tierTitle">Rarely Used</h2>
-                <h3 class="subTierTitle">Tier's <b>type</b> analysis</h3>
-                <div id="rarelyUsedChart"></div>
-                <h3 class="subTierTitle">Tier's <b>stats</b> analysis</h3>
-                <div id="rarelyUsedStats"></div>
-                <h3 class="rankingTitle">TOP 10</h3>
-                <div class="pkmn-list">
-                    <div class="tmpl-pkmn hidden">
-                        <img class="pkmn-sprite"></img>
-                        <div class="pkmn-no"></div>
-                        <div class="pkmn-name"></div>
-                        <div class="typeContainer">
-                            <div class="pkmn-type1"></div>
-                            <div class="pkmn-type2"></div>
-                        </div>
+        </div>
+        <div class="overUsed tier">
+            <h2 class="tierTitle">Over Used</h2>
+            <h3 class="subTierTitle">Tier's <b>type</b> analysis</h3>
+            <div id="overUsedChart"></div>
+            <h3 class="subTierTitle">Tier's <b>stats</b> analysis</h3>
+            <div id="overUsedStats"></div>
+            <h3 class="rankingTitle">TOP 10</h3>
+            <div class="pkmn-list">
+                <div class="tmpl-pkmn hidden">
+                    <img class="pkmn-sprite"></img>
+                    <div class="pkmn-no"></div>
+                    <div class="pkmn-name"></div>
+                    <div class="typeContainer">
+                        <div class="pkmn-type1"></div>
+                        <div class="pkmn-type2"></div>
                     </div>
                 </div>
-            </div>
-            <div class="neverUsed tier">
-                <h2 class="tierTitle">Never Used</h2>
-                <h3 class="subTierTitle">Tier's <b>type</b> analysis</h3>
-                <div id="neverUsedChart"></div>
-                <h3 class="subTierTitle">Tier's <b>stats</b> analysis</h3>
-                <div id="neverUsedStats"></div>
-                <h3 class="rankingTitle">TOP 10</h3>
-                <div class="pkmn-list">
-                    <div class="tmpl-pkmn hidden">
-                        <img class="pkmn-sprite"></img>
-                        <div class="pkmn-no"></div>
-                        <div class="pkmn-name"></div>
-                        <div class="typeContainer">
-                            <div class="pkmn-type1"></div>
-                            <div class="pkmn-type2"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class ="fixedLegend">
-                <button class="legendButton">Legend</button>
-                <svg id="legendBullets" height=200 width=450></svg>
             </div>
         </div>
 
+        <div class="underUsed tier">
+            <h2 class="tierTitle">Under Used</h2>
+            <h3 class="subTierTitle">Tier's <b>type</b> analysis</h3>
+            <div id="underUsedChart"></div>
+            <h3 class="subTierTitle">Tier's <b>stats</b> analysis</h3>
+            <div id="underUsedStats"></div>
+            <h3 class="rankingTitle">TOP 10</h3>
+            <div class="pkmn-list">
+                <div class="tmpl-pkmn hidden">
+                    <img class="pkmn-sprite"></img>
+                    <div class="pkmn-no"></div>
+                    <div class="pkmn-name"></div>
+                    <div class="typeContainer">
+                        <div class="pkmn-type1"></div>
+                        <div class="pkmn-type2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rarelyUsed tier">
+            <h2 class="tierTitle">Rarely Used</h2>
+            <h3 class="subTierTitle">Tier's <b>type</b> analysis</h3>
+            <div id="rarelyUsedChart"></div>
+            <h3 class="subTierTitle">Tier's <b>stats</b> analysis</h3>
+            <div id="rarelyUsedStats"></div>
+            <h3 class="rankingTitle">TOP 10</h3>
+            <div class="pkmn-list">
+                <div class="tmpl-pkmn hidden">
+                    <img class="pkmn-sprite"></img>
+                    <div class="pkmn-no"></div>
+                    <div class="pkmn-name"></div>
+                    <div class="typeContainer">
+                        <div class="pkmn-type1"></div>
+                        <div class="pkmn-type2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="neverUsed tier">
+            <h2 class="tierTitle">Never Used</h2>
+            <h3 class="subTierTitle">Tier's <b>type</b> analysis</h3>
+            <div id="neverUsedChart"></div>
+            <h3 class="subTierTitle">Tier's <b>stats</b> analysis</h3>
+            <div id="neverUsedStats"></div>
+            <h3 class="rankingTitle">TOP 10</h3>
+            <div class="pkmn-list">
+                <div class="tmpl-pkmn hidden">
+                    <img class="pkmn-sprite"></img>
+                    <div class="pkmn-no"></div>
+                    <div class="pkmn-name"></div>
+                    <div class="typeContainer">
+                        <div class="pkmn-type1"></div>
+                        <div class="pkmn-type2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fixedLegend">
+            <button class="legendButton">Legend</button>
+            <svg id="legendBullets" height=200 width=450></svg>
+        </div>
+    </div>
 
-    </section><script defer src="index_bundle.js"></script>
+
+</section><script defer src="index_bundle.js"></script>
