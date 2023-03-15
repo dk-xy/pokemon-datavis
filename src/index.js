@@ -352,12 +352,39 @@ let margin = { left: 90, top: 90, right: 90, bottom: 90 },
 
 //CREATION DU GRAPHIQUE-------------------------------
 //CADRE DE BASE
+var w2 = Math.min(800, window.innerWidth - 20);
+var h2 = Math.min(600, window.innerHeight - 20);
+
+let theScale
+  if (window.innerWidth < 600) { // for mobile view, make the chart smaller
+    theScale = "scale("+0.8+")";
+  } else { // for desktop view, make the chart bigger
+    theScale = "scale("+1.2+")";
+  }
+
+
+  let theScaleBox
+  let svgBox
+  if (window.innerWidth < 600) { // for mobile view, make the chart smaller
+    theScaleBox = "scale("+0.55+")";
+    svgBox = "300px"
+  } else { // for desktop view, make the chart bigger
+    theScaleBox = "scale("+0.7+")";
+    svgBox="400px"
+  }
+
+  
+
 let svg = d3.select("#types-chart")
   .append("svg")
-  .attr("width", 1000)
-  .attr("height", 800)
+  .attr("width", "100%")
+  .attr("height", window.innerHeight * 0.8)
+  // .attr("width", 1000)
+  // .attr("height", 800)
+
   .append("g")
-  .attr("transform", "translate(600,400) scale(1.2,1.2)")
+  // .attr("transform", "translate(600,400) scale(1.2,1.2)")
+  .attr("transform", "translate(" + (window.innerWidth / 2) + "," + (window.innerHeight / 2) + ")"+theScale )
 
 //calcul de la matrice
 let res = d3.chord()
@@ -371,17 +398,18 @@ let res = d3.chord()
 
 makeChordChart(svg, res, typeArray, matrix)
 
+
 function makeChordChart(svgTarget, resTarget, typeArray, matrix) {
   // Groupes dans la partie exterieur du cercle
   let outerGroups =
-    svg
+    svgTarget
       .datum(res)
       .append("g")
       .selectAll("g")
       .data(function (d) { return d.groups; })
       .enter()
-      .append("g");
-
+      .append("g")
+      
   let outerBars = outerGroups.attr('class', "group")
     .attr('type', function (d) { return typeArray[d.index]; })
     .append("path")
@@ -393,19 +421,20 @@ function makeChordChart(svgTarget, resTarget, typeArray, matrix) {
       .outerRadius(210)
     ) //append  des elements g
 
-  let outerText = outerBars.data(res.groups)
-    .enter().append("svg:g")
-    .attr("class", function (d) { return "group " + typeArray[d.index]; })
-    .append("svg:textPath")
-    .text(function (d) { return typeArray[d.index]; })
+  // let outerText = outerBars.data(res.groups)
+  //   .enter().append("svg:g")
+  //   .attr("class", function (d) { return "group " + typeArray[d.index]; })
+  //   .append("svg:textPath")
+  //   .text(function (d) { return typeArray[d.index]; })
 
 
 
   let textGroups = d3.selectAll('g.group')
     .append("text")
     .each(function (d) { d.angle = (d.startAngle + d.endAngle) / 2; })
-    .attr("dy", ".05em")
+    .attr("dy", ".02em")
     .attr("class", "titles")
+    .attr("font-size","10px")
     .attr("text-anchor", function (d) { return d.angle > Math.PI ? "end" : null; })
     .attr("transform", function (d) {
       return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
@@ -428,6 +457,8 @@ function makeChordChart(svgTarget, resTarget, typeArray, matrix) {
     .attr('class', function (d) { return typeArray[d.source.index] + "Arc " + typeArray[d.target.index] + "Sec" + ' innerArcs' })
     .on("mouseover", onMouseOver)
     .on("mouseout", onMouseOut)
+    .on("click", onMouseOver)
+
 
 
   let ribbons = innerBars
@@ -500,7 +531,7 @@ function makeChordChart(svgTarget, resTarget, typeArray, matrix) {
 
 
 //SECTION GRAPHIQUES DES STATS------------------------------------------------ !!
-//j'aurais pu faire mieux mais je commence à fatiguer... j'arrivais pas à faire un foreach sur uun objet
+
 
 //j'ai trouvé le foreach mais pour une raison ou une autre ça casse tout si je l'active donc je laisse :)
 //note je sais que c'est a cause du .fight et la classe fighting....
@@ -700,11 +731,11 @@ function makeStatsMiniBoxPlot(data, tierName) {
 
   let svgStats = d3.select(tierNode)
     .append("svg")
-    .attr("width", 400)
+    .attr("width", svgBox)
     .attr("height", 300)
     .append("g")
     .attr("transform",
-      "translate(" + 25 + "," + 25 + ") scale(0.7,0.7)");
+      "translate(" + 20 + "," + 50 + ")"+theScaleBox);
 
   //chartes des stats sur les tiers 
   // Build and Show the Y scale

@@ -21,7 +21,7 @@ export function toggleSection(section) {
       section_query.classList.add("active")
       section_query.classList.remove("hidden")
     }
-    closeNav()
+   
   }
   
   
@@ -43,7 +43,7 @@ function openNav() {
     document.querySelector("header").style.position = "fixed";
     document.querySelector("header").style.top = "0";
     document.querySelector("header").style.width = "100%";
-    document.querySelector("body").style.marginTop = "100px";
+    // document.querySelector("body").style.marginTop = "100px";
     actualState = true;
 }
 

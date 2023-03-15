@@ -10,6 +10,8 @@
     border-radius: 5px;
     margin: 10px 15px 10px 15px;
     padding: 10px 15px 10px 15px;
+    width: 95%;
+    max-width: 450px;
 }
 
 .stats-title{
@@ -21,7 +23,7 @@
 
 .stats-descr, .statsContainer {
     background-color: #f1f1f1;
-    width: 93%;
+    width: 100%;
     margin: auto;
     margin-bottom: 40px !important;
     margin-top: 40px !important;
@@ -31,7 +33,8 @@
 }
 
 .stats-descr{
-    width: 93%;
-    margin: 20px;
-    padding: 20px 40px 20px 40px;
+    width: 80%;
+    /* margin: 20px; */
+    margin-top: 150px;
+    padding: 5px 15px 15px 15px;
 }

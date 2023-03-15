@@ -4,6 +4,9 @@
 @import 'stats.css';
 
 
+
+/* HEADER//////////////////////////////////////////////////////// */
+
 html,
 body {
     height: 100%;
@@ -37,6 +40,7 @@ header {
     /* 0.5 second transition effect to slide in the sidenav */
     display: block;
     overflow: hidden;
+
 }
 
 header nav {
@@ -59,6 +63,7 @@ header nav {
     background-color: white;
     display: flex;
     z-index:2;
+
 }
 
 .sub-head-navigation{
@@ -116,6 +121,11 @@ button {
     z-index: 200;
 }
 
+
+
+
+/* HOME //////////////////////////////////////////////////////////////////// */
+
 .home-descr .pkmn-sprite{
     width: 60px;
     margin-right: -20px;
@@ -166,6 +176,12 @@ background-color:  #914493;
     justify-content: center;
 }
 
+
+.homeButtonContainer img {
+    max-width: 100%;
+    height: auto;
+  }
+
 .homeElement{
     width: 250px;
     height: 250px;
@@ -195,8 +211,9 @@ background-color:  #914493;
 }
 
 #types-chart{
-    width: 50%;
+    width: 100%;
     display: inline-block;
+    margin-top: -100px;
 
 }
 
@@ -242,7 +259,8 @@ justify-content: space-between;
 #section-types{
 display: flex;
 flex-direction: row;
-flex-wrap: nowrap;
+flex-wrap: wrap;
+justify-content: center;
 gap: 20px;
 }
 
@@ -340,7 +358,13 @@ font-size: 20px;
 }
 
 .typesWheelContainer{
-    display:flex;
+    /* display:flex;
     direction: row;
-    flex-wrap: wrap;
+    flex-wrap: wrap; */
+    width: 100%;
+}
+
+
+#section-stats{
+    margin-top:100px;
 }
