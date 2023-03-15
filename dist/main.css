@@ -613,7 +613,7 @@ header nav {
 .head-navigation{
     background-color: #dc0a2d;
     height: 50px;
-
+  width: 100vw;
     box-shadow: 0px 2px 2px rgb(120, 120, 120);
 }
 
@@ -629,7 +629,7 @@ left: 40%;
 .head-navigation-title{
     margin: 0 auto;
     text-align: center;
-    display:inline-block;
+
 }
 
 .toggle-menu{

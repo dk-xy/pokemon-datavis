@@ -3,6 +3,9 @@ const state = document.querySelector('nav').getAttribute('status')
 const navIcon = navButton.querySelector('span')
 let actualState = false;
 
+let w = window.innerWidth;
+let h = window.innerHeight; 
+console.log("width: "+w+" and height: "+h)
 
 export function toggleSection(section) {
     //on rajoute le -section du html
@@ -18,6 +21,7 @@ export function toggleSection(section) {
       section_query.classList.add("active")
       section_query.classList.remove("hidden")
     }
+    closeNav()
   }
   
   
@@ -32,9 +36,14 @@ export function toggleSection(section) {
 
 /* Set the width of the side navigation to 250px */
 function openNav() {
-    document.querySelector("header").style.width = "250px";
-    document.querySelector("body").style.marginLeft = "250px";
-    document.querySelector(".fixedLegend").style.marginLeft = "250px"
+    // document.querySelector("header").style.width = "250px";
+    // document.querySelector("body").style.marginLeft = "250px";
+    // document.querySelector(".fixedLegend").style.marginLeft = "250px"
+    // actualState = true;
+    document.querySelector("header").style.position = "fixed";
+    document.querySelector("header").style.top = "0";
+    document.querySelector("header").style.width = "100%";
+    document.querySelector("body").style.marginTop = "100px";
     actualState = true;
 }
 
